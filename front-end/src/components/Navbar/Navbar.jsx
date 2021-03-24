@@ -34,8 +34,6 @@ const NavbarContainer = styled.div`
   left: 0;
   margin: 0.125rem 0;
   padding: 0.5rem;
-  position: sticky;
-  top: 0;
 `;
 
 const NavbarWrapper = styled.div`

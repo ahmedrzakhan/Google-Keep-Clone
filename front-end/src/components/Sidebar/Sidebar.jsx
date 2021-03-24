@@ -45,11 +45,12 @@ const Sidebar = (props) => {
 export default Sidebar;
 
 const SidebarContainer = styled.div`
-  min-width: ${({ isExpanded }) => (isExpanded ? "12rem" : "3.5rem")};
+  width: ${({ isExpanded }) => (isExpanded ? "18rem" : "3rem")};
+  transition: width 0.2s ease 0s;
 `;
 
 const SidebarWrapper = styled.div`
-  position: fixed;
+  position: sticky;
   top: 4.875rem;
 `;
 

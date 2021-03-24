@@ -19,7 +19,7 @@ const Layout = (props) => {
       </LayoutHeader>
       <LayoutMain>
         <Sidebar isExpanded={isSideBarExpanded} />
-        <React.Fragment>{children}</React.Fragment>
+        <MainContent>{children}</MainContent>
       </LayoutMain>
     </LayoutContainer>
   );
@@ -28,10 +28,16 @@ const Layout = (props) => {
 export default Layout;
 
 const LayoutContainer = styled.div``;
+
 const LayoutMain = styled.div`
   display: flex;
 `;
-const LayoutHeader = styled.div`
+const
+ LayoutHeader = styled.div`
   position: sticky;
   top: 0;
 `;
+
+const MainContent = styled.div`
+    margin: 3rem 5rem;
+`

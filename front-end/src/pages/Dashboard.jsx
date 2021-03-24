@@ -35,6 +35,4 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-const DashboardContainer = styled.div`
-  margin: 3rem;
-`;
+const DashboardContainer = styled.div``;
