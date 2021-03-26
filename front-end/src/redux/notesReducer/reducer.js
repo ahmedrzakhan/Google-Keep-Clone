@@ -1,48 +1,130 @@
 import {
-  GET_ACTIVE_NOTES_REQUEST,
-  GET_ACTIVE_NOTES_SUCCESS,
-  GET_ACTIVE_NOTES_FAILURE,
-  GET_ARCHIVED_NOTES_REQUEST,
-  GET_ARCHIVED_NOTES_SUCCESS,
-  GET_ARCHIVED_NOTES_FAILURE,
+  GET_NOTES_BY_TYPE_REQUEST,
+  GET_NOTES_BY_TYPE_SUCCESS,
+  GET_NOTES_BY_TYPE_FAILURE,
+  UPDATE_NOTE_REQUEST,
+  UPDATE_NOTE_SUCCESS,
+  UPDATE_NOTE_FAILURE,
+  DELETE_NOTE_REQUEST,
+  DELETE_NOTE_SUCCESS,
+  DELETE_NOTE_FAILURE,
+  ADD_NOTE_REQUEST,
+  ADD_NOTE_SUCCESS,
+  ADD_NOTE_FAILURE,
+  GET_NOTE_BY_ID_REQUEST,
+  GET_NOTE_BY_ID_SUCCESS,
+  GET_NOTE_BY_ID_FAILURE,
+  GET_NOTES_BY_SEARCH_REQUEST,
+  GET_NOTES_BY_SEARCH_SUCCESS,
+  GET_NOTES_BY_SEARCH_FAILURE,
 } from "./actionTypes";
 
 const initialState = {
   areNotesLoading: false,
-  error: false,
+  errorGettingNotes: false,
   notes: [],
+  note: {},
 };
 
 export const notesReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case GET_ACTIVE_NOTES_REQUEST: {
+    case GET_NOTES_BY_TYPE_REQUEST: {
+      return {
+        ...state,
+        areNotesLoading: true,
+      };
+    }
+
+    case GET_NOTES_BY_TYPE_SUCCESS: {
+      return {
+        ...state,
+        areNotesLoading: false,
+        notes: payload,
+      };
+    }
+
+    case GET_NOTES_BY_TYPE_FAILURE: {
+      return {
+        ...state,
+        areNotesLoading: false,
+        errorGettingNotes: false,
+      };
+    }
+
+    case UPDATE_NOTE_REQUEST: {
       return {
         ...state,
       };
     }
 
-    case GET_ACTIVE_NOTES_SUCCESS: {
+    case UPDATE_NOTE_SUCCESS: {
+      return {
+        ...state,
+        notes: payload,
+      };
+    }
+
+    case UPDATE_NOTE_FAILURE: {
       return {
         ...state,
       };
     }
 
-    case GET_ACTIVE_NOTES_FAILURE: {
-      return { ...state };
-    }
-
-    case GET_ARCHIVED_NOTES_REQUEST: {
-      return { ...state };
-    }
-
-    case GET_ARCHIVED_NOTES_SUCCESS: {
+    case DELETE_NOTE_REQUEST: {
       return {
         ...state,
       };
     }
 
-    case GET_ARCHIVED_NOTES_FAILURE: {
+    case DELETE_NOTE_SUCCESS: {
+      return {
+        ...state,
+        notes: payload,
+      };
+    }
+
+    case DELETE_NOTE_FAILURE: {
+      return {
+        ...state,
+      };
+    }
+
+    case ADD_NOTE_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+
+    case ADD_NOTE_SUCCESS: {
+      return { ...state, notes: [...state.notes, payload] };
+    }
+
+    case ADD_NOTE_FAILURE: {
       return { ...state };
+    }
+
+    case GET_NOTE_BY_ID_REQUEST: {
+      return { ...state };
+    }
+
+    case GET_NOTE_BY_ID_SUCCESS: {
+      return { ...state, note: payload };
+    }
+
+    case GET_NOTE_BY_ID_FAILURE: {
+      return { ...state };
+    }
+
+    case GET_NOTES_BY_SEARCH_REQUEST: {
+      return { ...state, areNotesLoading: true };
+    }
+
+    case GET_NOTES_BY_SEARCH_SUCCESS: {
+      return { ...state, areNotesLoading: false, notes: payload };
+    }
+
+    case GET_NOTES_BY_SEARCH_FAILURE: {
+      return { ...state, areNotesLoading: false, errorGettingNotes: false };
     }
 
     default:

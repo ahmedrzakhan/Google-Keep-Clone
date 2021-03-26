@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import Sidebar from "../Sidebar/Sidebar";
 import Navbar from "../Navbar/Navbar";
@@ -8,9 +8,10 @@ const Layout = (props) => {
 
   const [isSideBarExpanded, setIsSideBarExpanded] = useState(false);
 
-  const toggleSideBar = () => {
-    setIsSideBarExpanded(!isSideBarExpanded);
-  };
+  const toggleSideBar = useCallback(
+    () => setIsSideBarExpanded(!isSideBarExpanded),
+    [isSideBarExpanded]
+  );
 
   return (
     <LayoutContainer>
@@ -32,12 +33,11 @@ const LayoutContainer = styled.div``;
 const LayoutMain = styled.div`
   display: flex;
 `;
-const
- LayoutHeader = styled.div`
+const LayoutHeader = styled.div`
   position: sticky;
   top: 0;
 `;
 
 const MainContent = styled.div`
-    margin: 3rem 5rem;
-`
+  margin: 3rem 5rem;
+`;

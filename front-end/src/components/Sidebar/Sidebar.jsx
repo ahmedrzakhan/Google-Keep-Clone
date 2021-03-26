@@ -27,11 +27,11 @@ const Sidebar = (props) => {
             {isExpanded && <LinkLabel>Notes</LinkLabel>}
           </SecondaryLink>
           <SecondaryLink
-            active={isSelectedLink("/archived")}
+            active={isSelectedLink("/archive")}
             isExpanded={isExpanded}
-            onClick={() => history.push("/archived")}
+            onClick={() => history.push("/archive")}
           >
-            <IconContainer active={isSelectedLink("/archived")}>
+            <IconContainer active={isSelectedLink("/archive")}>
               <IoArchiveOutline size={"1.375rem"} />
             </IconContainer>
             {isExpanded && <LinkLabel>Archive</LinkLabel>}
@@ -77,5 +77,5 @@ const SecondaryLink = styled.div`
 `;
 
 const LinkLabel = styled.div`
-  margin-left: 1rem;
+  margin-left: 1.5rem;
 `;
