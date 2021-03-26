@@ -42,7 +42,7 @@ const Sidebar = ({ isExpanded, path }) => {
 export default memo(Sidebar);
 
 const SidebarContainer = styled.div`
-  min-width: ${({ isExpanded }) => (isExpanded ? "18rem" : "3rem")};
+  min-width: ${({ isExpanded }) => (isExpanded ? "12rem" : "3rem")};
   transition: min-width 0.2s ease 0s;
 `;
 

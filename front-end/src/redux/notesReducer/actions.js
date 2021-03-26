@@ -69,12 +69,12 @@ export const updateNoteFailure = (payload) => ({
 
 export const updateNote = (payload) => async (dispatch, getState) => {
   dispatch(updateNoteRequest(payload));
-
-  const { note, id } = payload;
+  console.log("payload", payload);
+  const { note, _id } = payload;
 
   const config = {
     method: "post",
-    url: `http://localhost:5000/api/notes/update-note/${id}`,
+    url: `http://localhost:5000/api/notes/update-note/${_id}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -83,12 +83,11 @@ export const updateNote = (payload) => async (dispatch, getState) => {
 
   try {
     const response = await axios(config);
-
     const { notes } = getState();
-    const { notesList } = notes;
+    const { notes: notesList } = notes;
 
-    const data = notesList.map((item) =>
-      item.id === payload.id ? response.data : item
+    const data = notesList.map((note) =>
+      note._id === _id ? response.data : note
     );
 
     dispatch(updateNoteSuccess(data));

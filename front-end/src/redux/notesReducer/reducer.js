@@ -19,6 +19,11 @@ import {
   GET_NOTES_BY_SEARCH_FAILURE,
 } from "./actionTypes";
 
+export const Status = {
+  ACTIVE: "Active",
+  ARCHIVE: "Archive",
+};
+
 const initialState = {
   areNotesLoading: false,
   errorGettingNotes: false,

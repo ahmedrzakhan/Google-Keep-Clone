@@ -6,6 +6,7 @@ import RenderCards from "./../components/RenderCards/RenderCards";
 import styled from "styled-components";
 import Layout from "../components/Layout/Layout";
 import { theme } from "./../theme/theme";
+import { Status } from "./../redux/notesReducer/reducer";
 
 const Dashboard = () => {
   const history = useHistory();
@@ -20,10 +21,13 @@ const Dashboard = () => {
 
   const notes = useSelector((state) => state.notes.notes);
 
-  let isHomePage = false;
+  let isHomePage = false,
+    isArchivePage = false;
 
   if (status === "Active") {
     isHomePage = true;
+  } else if (status === "Archive") {
+    isArchivePage = true;
   }
 
   useEffect(() => {
@@ -43,9 +47,18 @@ const Dashboard = () => {
         )}
 
         {isHomePage && <ListTitle>Others</ListTitle>}
-        {/* Pinned is set as false from backend if status is Archive (for archive page), 
-        and for Notes page it gives unpinned notes*/}
-        {<RenderCards notes={notes.filter((note) => !note.pinned)} />}
+        {isHomePage && (
+          <RenderCards
+            notes={notes.filter(
+              (note) => note.status === Status.ACTIVE && !note.pinned
+            )}
+          />
+        )}
+        {isArchivePage && (
+          <RenderCards
+            notes={notes.filter((note) => note.status === Status.ARCHIVE)}
+          />
+        )}
       </Layout>
     </React.Fragment>
   );

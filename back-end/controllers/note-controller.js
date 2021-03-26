@@ -24,10 +24,16 @@ const addNote = async (req, res) => {
 // Update Note
 const updateNote = (req, res) => {
   const { id } = req.params;
-  const { description, pinned, status, title } = req.body;
+  console.log("id", id);
+  const { date, description, pinned, status, title } = req.body;
+  console.log("req.body;", req.body);
+
   Note.findById(id).then((note) => {
-    note.description = description;
-    (note.pinned = pinned), (note.status = status), (note.title = title);
+    (note.date = date),
+      (note.description = description),
+      (note.pinned = pinned),
+      (note.status = status),
+      (note.title = title);
 
     note
       .save()
@@ -44,9 +50,7 @@ const updateNote = (req, res) => {
 const deleteNote = (req, res) => {
   const { id } = req.params;
   Note.findByIdAndDelete(id)
-    .then(() => 
-      res.status(200).send("Note Deleted successfuly")
-    )
+    .then(() => res.status(200).send("Note Deleted successfuly"))
     .catch((err) =>
       res.status(400).json({ err, message: "Note delete failed" })
     );
