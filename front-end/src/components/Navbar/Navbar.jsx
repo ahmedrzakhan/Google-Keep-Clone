@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ memo } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Search from "./../Search/Search";
@@ -26,7 +26,7 @@ const Navbar = (props) => {
     </NavbarContainer>
   );
 };
-export default Navbar;
+export default memo(Navbar);
 
 const NavbarContainer = styled.div`
   background: ${theme.white};

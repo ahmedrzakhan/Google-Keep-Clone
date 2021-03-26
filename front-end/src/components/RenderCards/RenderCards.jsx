@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "./../../theme/theme";
 
 const RenderCards = ({ notes }) => {
+    const [a, setA] = useState('a')
+    console.log('a', a);
   return (
-    <DashboardContainer>
+    <CardsContainer>
       {notes.map((note) => (
-        <NoteCard key={note._id}>
+        <NoteCard key={note._id} onClick={() => setA('b')}>
           <NoteTitle>{note.title}</NoteTitle>
           {note.description}
         </NoteCard>
       ))}
-    </DashboardContainer>
+    </CardsContainer>
   );
 };
 
 export default RenderCards;
 
-const DashboardContainer = styled.div`
+const CardsContainer = styled.div`
   column-count: 4;
   column-gap: 0.5rem;
   margin-bottom: 3rem;

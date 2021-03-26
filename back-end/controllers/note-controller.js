@@ -2,7 +2,11 @@ const Note = require("../models/Note");
 
 // Create Note
 const addNote = async (req, res) => {
-  const { description, pinned, status, title } = req.body;
+  const { description, status, title } = req.body;
+  let { pinned } = req.body;
+  if (status === "Archive") {
+    pinned = false;
+  }
 
   const newNote = new Note({
     description,
@@ -40,9 +44,9 @@ const updateNote = (req, res) => {
 const deleteNote = (req, res) => {
   const { id } = req.params;
   Note.findByIdAndDelete(id)
-    .then((note) => {
-      res.status(200).send("Note Deleted successfuly");
-    })
+    .then(() => 
+      res.status(200).send("Note Deleted successfuly")
+    )
     .catch((err) =>
       res.status(400).json({ err, message: "Note delete failed" })
     );
@@ -51,10 +55,8 @@ const deleteNote = (req, res) => {
 // Get Note By Id
 const getNoteById = async (req, res) => {
   const { id } = req.params;
-  console.log("res", req.params);
 
   const note = await Note.findById(id);
-  console.log("note", note);
   res.send(note);
 };
 
@@ -71,8 +73,6 @@ const getNotes = async (req, res) => {
 const searchByChar = async (req, res) => {
   const { chars } = req.params;
 
-  console.log("req.params", req.params);
-
   const notes = await Note.find({
     $or: [
       { title: { $regex: chars, $options: "i" } },
@@ -80,7 +80,6 @@ const searchByChar = async (req, res) => {
     ],
   });
 
-  console.log("notes", notes);
   res.status(200).send(notes);
 };
 module.exports = {
