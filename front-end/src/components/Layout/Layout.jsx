@@ -1,12 +1,15 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import Navbar from "../Navbar/Navbar";
 
-const Layout = (props) => {
-  const { children } = props;
+const Layout = ({ children }) => {
+  const history = useHistory();
 
   const [isSideBarExpanded, setIsSideBarExpanded] = useState(false);
+
+  const pathname = history.location.pathname;
 
   const toggleSideBar = useCallback(
     () => setIsSideBarExpanded(!isSideBarExpanded),
@@ -15,11 +18,9 @@ const Layout = (props) => {
 
   return (
     <LayoutContainer>
-      <LayoutHeader>
-        <Navbar toggleSideBar={toggleSideBar} />
-      </LayoutHeader>
+      <Navbar toggleSideBar={toggleSideBar} />
       <LayoutMain>
-        <Sidebar isExpanded={isSideBarExpanded} />
+        <Sidebar isExpanded={isSideBarExpanded} path={pathname} />
         <MainContent>{children}</MainContent>
       </LayoutMain>
     </LayoutContainer>
@@ -32,10 +33,6 @@ const LayoutContainer = styled.div``;
 
 const LayoutMain = styled.div`
   display: flex;
-`;
-const LayoutHeader = styled.div`
-  position: sticky;
-  top: 0;
 `;
 
 const MainContent = styled.div`

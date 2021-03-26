@@ -1,12 +1,11 @@
-import React,{ memo } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Search from "./../Search/Search";
 import { AiFillBook, AiOutlineMenu } from "react-icons/ai";
 import { theme } from "./../../theme/theme";
 
-const Navbar = (props) => {
-  const { toggleSideBar } = props;
+const Navbar = ({ toggleSideBar }) => {
   const history = useHistory();
 
   return (
@@ -31,9 +30,10 @@ export default memo(Navbar);
 const NavbarContainer = styled.div`
   background: ${theme.white};
   border-bottom: 1px solid ${theme.grey};
-  left: 0;
   margin: 0.125rem 0;
   padding: 0.5rem;
+  position: sticky;
+  top: 0;
 `;
 
 const NavbarWrapper = styled.div`

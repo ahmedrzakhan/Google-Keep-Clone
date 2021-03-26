@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { theme } from "./../../theme/theme";
 
 const RenderCards = ({ notes }) => {
-    const [a, setA] = useState('a')
-    console.log('a', a);
   return (
     <CardsContainer>
       {notes.map((note) => (
-        <NoteCard key={note._id} onClick={() => setA('b')}>
+        <NoteCard key={note._id}>
           <NoteTitle>{note.title}</NoteTitle>
           {note.description}
         </NoteCard>

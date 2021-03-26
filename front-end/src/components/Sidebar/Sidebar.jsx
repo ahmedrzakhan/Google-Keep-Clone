@@ -6,32 +6,29 @@ import { IoArchiveOutline } from "react-icons/io5";
 
 import { theme } from "./../../theme/theme";
 
-const Sidebar = (props) => {
-  const { isExpanded } = props;
+const Sidebar = ({ isExpanded, path }) => {
   const history = useHistory();
-
-  const isSelectedLink = (pathname) => pathname === history.location.pathname;
 
   return (
     <SidebarContainer isExpanded={isExpanded}>
       <SidebarWrapper>
         <ListContainer>
           <SecondaryLink
-            active={isSelectedLink("/")}
+            active={path === "/"}
             isExpanded={isExpanded}
             onClick={() => history.push("/")}
           >
-            <IconContainer active={isSelectedLink("/")}>
+            <IconContainer active={path === "/"}>
               <AiOutlineBulb size={"1.375rem"} />
             </IconContainer>
             {isExpanded && <LinkLabel>Notes</LinkLabel>}
           </SecondaryLink>
           <SecondaryLink
-            active={isSelectedLink("/archive")}
+            active={path === "/archive"}
             isExpanded={isExpanded}
             onClick={() => history.push("/archive")}
           >
-            <IconContainer active={isSelectedLink("/archive")}>
+            <IconContainer active={path === "/archive"}>
               <IoArchiveOutline size={"1.375rem"} />
             </IconContainer>
             {isExpanded && <LinkLabel>Archive</LinkLabel>}
@@ -42,11 +39,11 @@ const Sidebar = (props) => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);
 
 const SidebarContainer = styled.div`
-  width: ${({ isExpanded }) => (isExpanded ? "18rem" : "3rem")};
-  transition: width 0.2s ease 0s;
+  min-width: ${({ isExpanded }) => (isExpanded ? "18rem" : "3rem")};
+  transition: min-width 0.2s ease 0s;
 `;
 
 const SidebarWrapper = styled.div`
@@ -70,7 +67,7 @@ const SecondaryLink = styled.div`
   align-items: center;
   background: ${({ isExpanded, active }) =>
     isExpanded && active ? theme.lightYellow : "transparent"};
-  border-radius: 0 27px 27px 0;
+  border-radius: 0 1.675rem 1.675rem 0;
   cursor: pointer;
   display: flex;
   padding: 0.5rem;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotesByType } from "./../redux/notesReducer/actions";
@@ -8,10 +8,8 @@ import Layout from "../components/Layout/Layout";
 import { theme } from "./../theme/theme";
 
 const Dashboard = () => {
-  console.log("Dashboard rendered");
   const history = useHistory();
   const pathname = history.location.pathname;
-  // console.log('pathma,e', pathname);
   let status;
   if (pathname === "/") {
     status = "Active";
