@@ -7,6 +7,7 @@ import { theme } from "./../../theme/theme";
 
 const Navbar = ({ toggleSideBar, path }) => {
   const history = useHistory();
+  console.log('Navbar path', path)
   let header;
   if (path === "/") {
     header = "Active";

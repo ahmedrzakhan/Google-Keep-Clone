@@ -62,7 +62,7 @@ const RenderCards = ({ notes }) => {
           <NoteDescription len={note.description.length}>
             {note.description.map((description, index) => {
               if (!description.trim().length) {
-                return <br />
+                return <br key={index} />
               }
               return <div key={index}>{description}</div>;
             })}

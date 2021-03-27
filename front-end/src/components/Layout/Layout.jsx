@@ -11,6 +11,8 @@ const Layout = ({ children }) => {
 
   const pathname = history.location.pathname;
 
+  console.log('Layout pathname', pathname);
+
   const toggleSideBar = useCallback(
     () => setIsSideBarExpanded(!isSideBarExpanded),
     [isSideBarExpanded]
@@ -18,7 +20,7 @@ const Layout = ({ children }) => {
 
   return (
     <LayoutContainer>
-      <Navbar toggleSideBar={toggleSideBar} />
+      <Navbar path={pathname} toggleSideBar={toggleSideBar} />
       <LayoutMain>
         <Sidebar isExpanded={isSideBarExpanded} path={pathname} />
         <MainContent>{children}</MainContent>
