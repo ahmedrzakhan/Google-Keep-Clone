@@ -5,8 +5,16 @@ import Search from "./../Search/Search";
 import { AiFillBook, AiOutlineMenu } from "react-icons/ai";
 import { theme } from "./../../theme/theme";
 
-const Navbar = ({ toggleSideBar }) => {
+const Navbar = ({ toggleSideBar, path }) => {
   const history = useHistory();
+  let header;
+  if (path === "/") {
+    header = "Active";
+  } else if (path === "/archive") {
+    header = "Archive";
+  } else {
+    header = "Search"
+  }
 
   return (
     <NavbarContainer>
@@ -19,7 +27,10 @@ const Navbar = ({ toggleSideBar }) => {
             <AiFillBook color={theme.orange} size={"2.5rem"} />
             <Title>Keep</Title>
           </LogoAndTitle>
+
         </MenuAndLogo>
+        <Title>{header && header}</Title>
+
         <Search />
       </NavbarWrapper>
     </NavbarContainer>
@@ -40,7 +51,7 @@ const NavbarWrapper = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
-  width: 70%;
+  width: 80%;
 `;
 
 const MenuAndLogo = styled.div`
