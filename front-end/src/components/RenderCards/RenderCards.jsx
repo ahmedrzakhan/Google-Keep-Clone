@@ -60,9 +60,12 @@ const RenderCards = ({ notes }) => {
         <NoteCard key={note._id}>
           <NoteTitle len={note.title.length}>{note.title}</NoteTitle>
           <NoteDescription len={note.description.length}>
-            {note.description.map((description, index) => (
-              <div key={index}>{description}</div>
-            ))}
+            {note.description.map((description, index) => {
+              if (!description.trim().length) {
+                return <br />
+              }
+              return <div key={index}>{description}</div>;
+            })}
           </NoteDescription>
           <ActionsContainer>
             <IconContainer onClick={() => togglePinStatus(note)}>
