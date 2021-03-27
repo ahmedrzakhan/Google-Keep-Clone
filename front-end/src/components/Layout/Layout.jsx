@@ -37,4 +37,5 @@ const LayoutMain = styled.div`
 
 const MainContent = styled.div`
   margin: 3rem 5rem;
+  width: 100%;
 `;

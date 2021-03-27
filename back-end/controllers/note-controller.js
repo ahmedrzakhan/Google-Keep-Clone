@@ -17,16 +17,16 @@ const addNote = async (req, res) => {
 
   newNote
     .save()
-    .then((note) => res.status(200).send(note))
+    .then((note) => {
+      res.status(200).send(note);
+    })
     .catch((err) => res.status(500).send({ err }));
 };
 
 // Update Note
 const updateNote = (req, res) => {
   const { id } = req.params;
-  console.log("id", id);
   const { date, description, pinned, status, title } = req.body;
-  console.log("req.body;", req.body);
 
   Note.findById(id).then((note) => {
     (note.date = date),
@@ -37,9 +37,7 @@ const updateNote = (req, res) => {
 
     note
       .save()
-      .then((note) => {
-        res.status(200).send(note);
-      })
+      .then((note) => res.status(200).send(note))
       .catch((err) =>
         res.status(500).json({ err, message: "Update note failed" })
       );

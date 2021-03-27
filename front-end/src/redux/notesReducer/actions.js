@@ -69,7 +69,6 @@ export const updateNoteFailure = (payload) => ({
 
 export const updateNote = (payload) => async (dispatch, getState) => {
   dispatch(updateNoteRequest(payload));
-  console.log("payload", payload);
   const { note, _id } = payload;
 
   const config = {

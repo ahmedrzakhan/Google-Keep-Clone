@@ -58,8 +58,12 @@ const RenderCards = ({ notes }) => {
     <CardsContainer>
       {notes.map((note) => (
         <NoteCard key={note._id}>
-          <NoteTitle>{note.title}</NoteTitle>
-          <NoteDescription>{note.description}</NoteDescription>
+          <NoteTitle len={note.title.length}>{note.title}</NoteTitle>
+          <NoteDescription len={note.description.length}>
+            {note.description.map((description, index) => (
+              <div key={index}>{description}</div>
+            ))}
+          </NoteDescription>
           <ActionsContainer>
             <IconContainer onClick={() => togglePinStatus(note)}>
               {/* pinned is a boolean */}
@@ -106,17 +110,19 @@ const NoteCard = styled.div`
 
   &:hover {
     box-shadow: inset 0.25px 0.25px 0.25px ${theme.darkGrey},
-      inset -0.25px -0.25px 0.25px;
+      inset -0.25px -0.25px 0.25px ${theme.darkGrey};
   }
 `;
 
 const NoteTitle = styled.div`
   font-weight: 700;
-  margin-bottom: 1rem;
+  /* If title is empty remove margin */
+  margin-bottom: ${({ len }) => (len ? "1rem" : 0)};
 `;
 
 const NoteDescription = styled.div`
-  margin-bottom: 1.5rem;
+  /* If description is empty remove margin */
+  margin-bottom: ${({ len }) => (len ? "1.5rem" : 0)};
 `;
 
 const ActionsContainer = styled.div`
