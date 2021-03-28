@@ -8,15 +8,13 @@ const Routes = () => {
   let location = useLocation();
   let background = location.state && location.state.background;
 
-  console.log('location', location)
-console.log('background', background)
   return (
     <>
       <Switch location={background || location}>
         <Route path="/" exact render={() => <ActivePage />} />
         <Route path="/archive" render={() => <ArchivePage />} />
       </Switch>
-      {background && <Route path="/Note/:id" children={() => <Modal />} /> }
+      {background && <Route path="/Note/:id" children={() => <Modal />} />}
     </>
   );
 };

@@ -7,9 +7,8 @@ const Modal = () => {
   const history = useHistory();
   const location = useLocation();
 
-  let goBack = (e) => {
-    e.stopPropagation();
-    history.push(location.state.background);
+  const goBack = () => {
+    history.push(location.state.background.pathname);
   };
 
   return (
