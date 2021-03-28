@@ -1,8 +1,22 @@
 import React from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { theme } from "./../../theme/theme";
 
 const Modal = () => {
-  return <ModalContainer>ModalContainer</ModalContainer>;
+  const history = useHistory();
+  const location = useLocation();
+
+  let goBack = (e) => {
+    e.stopPropagation();
+    history.push(location.state.background);
+  };
+
+  return (
+    <ModalContainer onClick={goBack}>
+      <ModalCard>ModalContainer</ModalCard>
+    </ModalContainer>
+  );
 };
 
 export default Modal;
@@ -17,4 +31,12 @@ const ModalContainer = styled.div`
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalCard = styled.div`
+  background: ${theme.white};
+  border-radius: 0.25rem;
+  max-width: 25rem;
+  max-height: 60vh;
+  padding: 1rem;
 `;

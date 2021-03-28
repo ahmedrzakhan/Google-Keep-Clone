@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { deleteNote, updateNote } from "./../../redux/notesReducer/actions";
 import { theme } from "./../../theme/theme";
@@ -16,6 +16,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 const RenderCards = ({ notes }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
   const togglePinStatus = (note) => {
     const { date, description, _id, title } = note;
@@ -59,38 +60,50 @@ const RenderCards = ({ notes }) => {
   return (
     <CardsContainer>
       {notes.map((note) => (
-        <NoteCard key={note._id} onClick={() => history.push(`/Note/${note._id}`)}>
-          <NoteTitle len={note.title.length}>{note.title}</NoteTitle>
-          <NoteDescription len={note.description.length}>
-            {note.description.map((description, index) => {
-              if (!description.trim().length) {
-                // display empty line for empty strings
-                return <br key={index} />;
-              }
-              return <div key={index}>{description}</div>;
-            })}
-          </NoteDescription>
-          <ActionsContainer>
-            <IconContainer onClick={() => togglePinStatus(note)}>
-              {/* pinned is a boolean */}
-              {note.pinned ? (
-                <RiPushpin2Fill size={"1.125rem"} />
-              ) : (
-                <RiPushpin2Line size={"1.125rem"} />
-              )}
-            </IconContainer>
-            <IconContainer onClick={() => toggleNoteStatus(note)}>
-              {note.status === Status.ACTIVE ? (
-                <RiInboxArchiveLine size={"1.125rem"} />
-              ) : (
-                <RiInboxUnarchiveLine size={"1.125rem"} />
-              )}
-            </IconContainer>
-            <IconContainer onClick={() => handleDeleteNote(note)}>
-              <AiOutlineDelete size={"1.125rem"} />
-            </IconContainer>
-          </ActionsContainer>
-        </NoteCard>
+        <Link
+          key={note._id}
+          to={{
+            pathname: `/Note/${note._id}`,
+            // This link sets the `background` in location state.
+            state: { background: location },
+          }}
+        >
+          <NoteCard
+            key={note._id}
+            onClick={() => history.push(`/Note/${note._id}`)}
+          >
+            <NoteTitle len={note.title.length}>{note.title}</NoteTitle>
+            <NoteDescription len={note.description.length}>
+              {note.description.map((description, index) => {
+                if (!description.trim().length) {
+                  // display empty line for empty strings
+                  return <br key={index} />;
+                }
+                return <div key={index}>{description}</div>;
+              })}
+            </NoteDescription>
+            <ActionsContainer onClick={(e) => e.stopPropagation()}>
+              <IconContainer onClick={() => togglePinStatus(note)}>
+                {/* pinned is a boolean */}
+                {note.pinned ? (
+                  <RiPushpin2Fill size={"1.125rem"} />
+                ) : (
+                  <RiPushpin2Line size={"1.125rem"} />
+                )}
+              </IconContainer>
+              <IconContainer onClick={() => toggleNoteStatus(note)}>
+                {note.status === Status.ACTIVE ? (
+                  <RiInboxArchiveLine size={"1.125rem"} />
+                ) : (
+                  <RiInboxUnarchiveLine size={"1.125rem"} />
+                )}
+              </IconContainer>
+              <IconContainer onClick={() => handleDeleteNote(note)}>
+                <AiOutlineDelete size={"1.125rem"} />
+              </IconContainer>
+            </ActionsContainer>
+          </NoteCard>
+        </Link>
       ))}
     </CardsContainer>
   );
@@ -106,6 +119,7 @@ const CardsContainer = styled.div`
 const NoteCard = styled.div`
   border: 1px solid ${theme.grey};
   border-radius: 0.5rem;
+  color: ${theme.black};
   display: inline-block;
   margin: 0.5rem 0;
   min-height: 3.75rem;
