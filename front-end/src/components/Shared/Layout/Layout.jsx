@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Sidebar from "../Sidebar/Sidebar";
-import Navbar from "../Navbar/Navbar";
+import Sidebar from "./../Sidebar/Sidebar";
+import Navbar from "./../Navbar/Navbar"
 
 const Layout = ({ children }) => {
   const history = useHistory();

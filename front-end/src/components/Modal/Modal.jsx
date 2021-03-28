@@ -35,7 +35,7 @@ const ModalContainer = styled.div`
 const ModalCard = styled.div`
   background: ${theme.white};
   border-radius: 0.25rem;
-  max-width: 25rem;
+  width: 35rem;
   max-height: 60vh;
   padding: 1rem;
 `;

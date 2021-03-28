@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { AiOutlineBulb } from "react-icons/ai";
 import { IoArchiveOutline } from "react-icons/io5";
-
-import { theme } from "./../../theme/theme";
+import { theme } from "./../../../theme/theme";
 
 const Sidebar = ({ isExpanded, path }) => {
   const history = useHistory();

@@ -1,9 +1,9 @@
 import React, { memo } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Search from "./../Search/Search";
+import Search from "./../../Search/Search";
 import { AiFillBook, AiOutlineMenu } from "react-icons/ai";
-import { theme } from "./../../theme/theme";
+import { theme } from "./../../../theme/theme";
 
 const Navbar = ({ toggleSideBar, path }) => {
   const history = useHistory();

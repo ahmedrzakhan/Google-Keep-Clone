@@ -60,19 +60,18 @@ const RenderCards = ({ notes }) => {
   return (
     <CardsContainer>
       {notes.map((note) => (
-        <Link
-          key={note._id}
-          to={{
-            pathname: `/Note/${note._id}`,
-            // This link sets the `background` in location state.
-            state: { background: location },
-          }}
-        >
-          <NoteCard
-            key={note._id}
-            onClick={() => history.push(`/Note/${note._id}`)}
+        <NoteCard key={note._id}>
+          <Link
+            style={{ textDecoration: "none", color: `${theme.black}` }}
+            to={{
+              pathname: `/Note/${note._id}`,
+              // This link sets the `background` in location state.
+              state: { background: location },
+            }}
           >
-            <NoteTitle len={note.title.length}>{note.title}</NoteTitle>
+            <NoteTitle len={note.title.length}>
+              {note.title}
+            </NoteTitle>
             <NoteDescription len={note.description.length}>
               {note.description.map((description, index) => {
                 if (!description.trim().length) {
@@ -82,28 +81,29 @@ const RenderCards = ({ notes }) => {
                 return <div key={index}>{description}</div>;
               })}
             </NoteDescription>
-            <ActionsContainer onClick={(e) => e.stopPropagation()}>
-              <IconContainer onClick={() => togglePinStatus(note)}>
-                {/* pinned is a boolean */}
-                {note.pinned ? (
-                  <RiPushpin2Fill size={"1.125rem"} />
-                ) : (
-                  <RiPushpin2Line size={"1.125rem"} />
-                )}
-              </IconContainer>
-              <IconContainer onClick={() => toggleNoteStatus(note)}>
-                {note.status === Status.ACTIVE ? (
-                  <RiInboxArchiveLine size={"1.125rem"} />
-                ) : (
-                  <RiInboxUnarchiveLine size={"1.125rem"} />
-                )}
-              </IconContainer>
-              <IconContainer onClick={() => handleDeleteNote(note)}>
-                <AiOutlineDelete size={"1.125rem"} />
-              </IconContainer>
-            </ActionsContainer>
-          </NoteCard>
-        </Link>
+          </Link>
+
+          <ActionsContainer onClick={(e) => e.stopPropagation()}>
+            <IconContainer onClick={() => togglePinStatus(note)}>
+              {/* pinned is a boolean */}
+              {note.pinned ? (
+                <RiPushpin2Fill size={"1.125rem"} />
+              ) : (
+                <RiPushpin2Line size={"1.125rem"} />
+              )}
+            </IconContainer>
+            <IconContainer onClick={() => toggleNoteStatus(note)}>
+              {note.status === Status.ACTIVE ? (
+                <RiInboxArchiveLine size={"1.125rem"} />
+              ) : (
+                <RiInboxUnarchiveLine size={"1.125rem"} />
+              )}
+            </IconContainer>
+            <IconContainer onClick={() => handleDeleteNote(note)}>
+              <AiOutlineDelete size={"1.125rem"} />
+            </IconContainer>
+          </ActionsContainer>
+        </NoteCard>
       ))}
     </CardsContainer>
   );
@@ -119,7 +119,6 @@ const CardsContainer = styled.div`
 const NoteCard = styled.div`
   border: 1px solid ${theme.grey};
   border-radius: 0.5rem;
-  color: ${theme.black};
   display: inline-block;
   margin: 0.5rem 0;
   min-height: 3.75rem;

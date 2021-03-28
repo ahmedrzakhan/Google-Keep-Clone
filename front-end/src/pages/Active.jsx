@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import Layout from "./../components/Layout/Layout";
+import Layout from "../components/Shared/Layout/Layout";
 import RenderCards from "./../components/RenderCards/RenderCards";
+import Textarea from "../components/Shared/Textarea/Textarea";
+import Input from "./../components/Shared/Input/Input";
 import { addNote, getNotesByType } from "./../redux/notesReducer/actions";
 import { Status } from "./../redux/notesReducer/reducer";
 import { theme } from "./../theme/theme";
@@ -66,9 +68,9 @@ const ActivePage = () => {
 
       dispatch(addNote(payload))
         .then(() => {
+          setRowSize(minRows);
           setDescription("");
           setTitle("");
-          setRowSize(minRows);
         })
         .catch((err) => console.log("Add Note Failed", err));
     }
@@ -81,14 +83,14 @@ const ActivePage = () => {
       <NotepadContainer>
         <NotepadWrapper showNotepad={showNotepad}>
           {showNotepad && (
-            <NoteTitleInput
+            <Input
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
               value={title}
             />
           )}
           <NoteDescriptionInputWrapper showNotepad={showNotepad}>
-            <NoteDescriptionInput
+            <Textarea
               rows={rowSize}
               onChange={(e) => handleDescriptionChange(e)}
               onFocus={() => setShowNotepad(true)}
@@ -159,16 +161,6 @@ const NoteDescriptionInputWrapper = styled.div`
     showNotepad
       ? 0
       : `0.75px 0.75px 5px ${theme.dullGrey}, -0.75px -0.75px 3px ${theme.dullGrey}`};
-`;
-
-const NoteDescriptionInput = styled.textarea`
-  border: none;
-  font-size: 0.875rem;
-  font-weight: ${({ showNotepad }) => (showNotepad ? 400 : 700)};
-  line-height: 36px;
-  resize: none;
-  outline: none;
-  width: 100%;
 `;
 
 const NoteTitleInput = styled.input`

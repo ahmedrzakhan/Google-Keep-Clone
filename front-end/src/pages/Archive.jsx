@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Layout from "./../components/Layout/Layout";
+import Layout from "../components/Shared/Layout/Layout";
 import RenderCards from "./../components/RenderCards/RenderCards";
 import { getNotesByType } from "./../redux/notesReducer/actions";
 import { MessageContainer } from "./Active";
