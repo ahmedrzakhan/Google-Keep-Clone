@@ -1,6 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 import { deleteNote, updateNote } from "./../../redux/notesReducer/actions";
 import { theme } from "./../../theme/theme";
 import { Status } from "./../../redux/notesReducer/reducer";
@@ -14,6 +15,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 
 const RenderCards = ({ notes }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const togglePinStatus = (note) => {
     const { date, description, _id, title } = note;
@@ -57,12 +59,13 @@ const RenderCards = ({ notes }) => {
   return (
     <CardsContainer>
       {notes.map((note) => (
-        <NoteCard key={note._id}>
+        <NoteCard key={note._id} onClick={() => history.push(`/Note/${note._id}`)}>
           <NoteTitle len={note.title.length}>{note.title}</NoteTitle>
           <NoteDescription len={note.description.length}>
             {note.description.map((description, index) => {
               if (!description.trim().length) {
-                return <br key={index} />
+                // display empty line for empty strings
+                return <br key={index} />;
               }
               return <div key={index}>{description}</div>;
             })}
@@ -98,7 +101,6 @@ export default RenderCards;
 const CardsContainer = styled.div`
   column-count: 4;
   column-gap: 0.5rem;
-  margin-bottom: 3rem;
 `;
 
 const NoteCard = styled.div`
