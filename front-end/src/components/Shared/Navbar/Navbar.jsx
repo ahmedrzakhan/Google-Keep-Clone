@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Search from "./../../Search/Search";
+import Searchbar from "../../Searchbar/Searchbar";
 import { AiFillBook, AiOutlineMenu } from "react-icons/ai";
 import { theme } from "./../../../theme/theme";
 
@@ -12,8 +12,8 @@ const Navbar = ({ toggleSideBar, path }) => {
     header = "Active";
   } else if (path === "/archive") {
     header = "Archive";
-  } else if(path.includes("/search")) {
-    header = "Search"
+  } else if (path.includes("/search")) {
+    header = "Search";
   }
 
   return (
@@ -27,11 +27,9 @@ const Navbar = ({ toggleSideBar, path }) => {
             <AiFillBook color={theme.orange} size={"2.5rem"} />
             <Title>Keep</Title>
           </LogoAndTitle>
-
         </MenuAndLogo>
         <Title>{header && header}</Title>
-
-        <Search />
+        <Searchbar />
       </NavbarWrapper>
     </NavbarContainer>
   );

@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import useDebounce from "./../../hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 import { AiOutlineSearch } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
-import { theme } from "./../../theme/theme";
+import { theme } from "../../theme/theme";
 import { getNotesBySearch } from "../../redux/notesReducer/actions";
-import { IconContainer } from "./../RenderCards/RenderCards";
+import { IconContainer } from "../RenderCards/RenderCards";
 
-const Search = () => {
+const Searchbar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [query, setQuery] = useState(
@@ -66,7 +66,7 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Searchbar;
 
 const SearchContainer = styled.div`
   margin-left: 1rem;
