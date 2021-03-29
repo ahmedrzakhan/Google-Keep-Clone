@@ -127,7 +127,7 @@ const ActivePage = () => {
 
 export default ActivePage;
 
-const ListTitle = styled.div`
+export const ListTitle = styled.div`
   color: ${theme.darkGrey};
   font-size: 0.75rem;
   font-weight: 700;

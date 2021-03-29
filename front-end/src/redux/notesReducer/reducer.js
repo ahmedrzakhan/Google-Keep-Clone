@@ -30,6 +30,7 @@ const initialState = {
   errorGettingNotes: false,
   errorGettingNote: false,
   notes: [],
+  filteredNotes: [], // for search results
   note: {},
 };
 
@@ -123,11 +124,11 @@ export const notesReducer = (state = initialState, { type, payload }) => {
     }
 
     case GET_NOTES_BY_SEARCH_REQUEST: {
-      return { ...state, areNotesLoading: true };
+      return { ...state, areNotesLoading: true, };
     }
 
     case GET_NOTES_BY_SEARCH_SUCCESS: {
-      return { ...state, areNotesLoading: false, notes: payload };
+      return { ...state, areNotesLoading: false, filteredNotes: payload };
     }
 
     case GET_NOTES_BY_SEARCH_FAILURE: {

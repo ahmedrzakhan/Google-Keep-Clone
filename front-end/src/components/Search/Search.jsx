@@ -1,35 +1,66 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import useDebounce from "./../../hooks/useDebounce";
 import { AiOutlineSearch } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
 import { theme } from "./../../theme/theme";
+import { getNotesBySearch } from "../../redux/notesReducer/actions";
+import { IconContainer } from "./../RenderCards/RenderCards";
 
 const Search = () => {
   const history = useHistory();
-  const [query, setQuery] = useState(history.location.pathname.split('/search/')[1] || "");
+  const dispatch = useDispatch();
+  const [query, setQuery] = useState(
+    history.location.pathname.split("/search/")[1] || ""
+  );
+  const [focused, setFocused] = React.useState(false);
   const queryRef = useRef(null);
+  const debouncedSearchTerm = useDebounce(query, 500);
 
   useEffect(() => {
-    if (history.location.pathname === "/search") {
+    if (history.location.pathname.includes("/search")) {
       queryRef.current.focus();
+
+      if (!query.length) {
+        history.push("/search");
+      }
     }
-    if (query.length) {
+    if (query.length >= 3) {
       history.push(`/search/${query}`);
     }
   }, [history, query]);
 
+  useEffect(() => {
+    if (debouncedSearchTerm && query.length >= 3) {
+      dispatch(getNotesBySearch(debouncedSearchTerm));
+    }
+  }, [dispatch, debouncedSearchTerm, query.length]);
+
+  const handleOnSearchFocus = () => {
+    history.push("/search");
+    setFocused(true);
+  };
+
   return (
     <SearchContainer>
-      <SearchBox>
-        <AiOutlineSearch size={"1.25rem"} />
+      <SearchBox focused={focused}>
+        <IconContainer>
+          <AiOutlineSearch size={"1.375rem"} />
+        </IconContainer>
         <SearchInput
-          ref={queryRef}
           onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => history.push("/search")}
+          onBlur={() => setFocused(false)}
+          onFocus={handleOnSearchFocus}
+          ref={queryRef}
           value={query}
         />
-        {query.length ? <ImCross size={"0.875rem"} /> : null}
+        {query.length ? (
+          <IconContainer>
+            <ImCross onClick={() => history.push("/")} size={"0.875rem"} />
+          </IconContainer>
+        ) : null}
       </SearchBox>
     </SearchContainer>
   );
@@ -44,17 +75,22 @@ const SearchContainer = styled.div`
 
 const SearchBox = styled.div`
   align-items: center;
-  background: ${theme.lightGrey};
+  background: ${({ focused }) => (focused ? theme.white : theme.lightGrey)};
   border-radius: 0.375rem;
+  box-shadow: ${({ focused }) =>
+    focused
+      ? "1px 1px 0 rgb(65 69 73 / 30%), 0 1px 3px 1px rgb(65 69 73 / 15%)"
+      : 0};
   display: flex;
   justify-content: space-between;
-  padding: 0.875rem;
+  padding: 0.25rem;
   width: 80%;
 `;
 
 const SearchInput = styled.input`
   background: transparent;
   border: 0;
+  font-size: 1rem;
   margin: 0 0.375rem;
   outline: none;
   width: 100%;

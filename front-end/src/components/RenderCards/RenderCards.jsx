@@ -153,7 +153,7 @@ const ActionsContainer = styled.div`
 
 export const IconContainer = styled.div`
   cursor: pointer;
-  padding: 0.5rem;
+  padding: ${({ noPadding }) => (noPadding ? 0 : "0.5rem")};
   &:hover {
     background: ${theme.snowWhite};
     border-radius: 50%;

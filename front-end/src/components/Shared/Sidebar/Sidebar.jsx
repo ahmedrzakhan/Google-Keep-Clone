@@ -13,11 +13,11 @@ const Sidebar = ({ isExpanded, path }) => {
       <SidebarWrapper>
         <ListContainer>
           <SecondaryLink
-            active={path === "/"}
+            active={path === "/" || path.includes("/search")}
             isExpanded={isExpanded}
             onClick={() => history.push("/")}
           >
-            <IconContainer active={path === "/"}>
+            <IconContainer active={path === "/" || path.includes("/search")}>
               <AiOutlineBulb size={"1.375rem"} />
             </IconContainer>
             {isExpanded && <LinkLabel>Notes</LinkLabel>}

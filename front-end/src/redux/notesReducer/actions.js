@@ -219,11 +219,9 @@ export const getNotesBySearchFailure = (payload) => ({
 export const getNotesBySearch = (payload) => async (dispatch) => {
   dispatch(getNotesBySearchRequest(payload));
 
-  const { chars } = payload;
-
   const config = {
     method: "get",
-    url: `http://localhost:5000/api/notes/search-by-char/${chars}`,
+    url: `http://localhost:5000/api/notes/search-by-char/${payload}`,
   };
 
   try {

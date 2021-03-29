@@ -163,51 +163,50 @@ const NoteModal = () => {
       });
   };
 
-
-
   return (
     <Modal onClick={handleCloseModal}>
-        {isNoteLoading ?
-     <div>Loading...</div> :
-  
-      <ModalCard onClick={(e) => e.stopPropagation()}>
-        <ContentContainer>
-          <NoteTitle
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
-            value={title}
-          />
-          <Textarea
-            onChange={(e) => handleDescriptionChange(e)}
-            value={description}
-            rows={rowSize}
-            placeholder="Add Description"
-          />
-        </ContentContainer>
-        <ActionContainer>
-          <IconsContainer>
-            <IconContainer onClick={togglePinStatus}>
-              {/* pinned is a boolean */}
-              {note.pinned ? (
-                <RiPushpin2Fill size={"1.125rem"} />
-              ) : (
-                <RiPushpin2Line size={"1.125rem"} />
-              )}
-            </IconContainer>
-            <IconContainer onClick={toggleNoteStatus}>
-              {note.status === Status.ACTIVE ? (
-                <RiInboxArchiveLine size={"1.125rem"} />
-              ) : (
-                <RiInboxUnarchiveLine size={"1.125rem"} />
-              )}
-            </IconContainer>
-            <IconContainer onClick={handleDeleteNote}>
-              <AiOutlineDelete size={"1.125rem"} />
-            </IconContainer>
-          </IconsContainer>
-          <CloseButton onClick={handleCloseModal}>Close</CloseButton>
-        </ActionContainer>
-      </ModalCard>}
+      {isNoteLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <ModalCard onClick={(e) => e.stopPropagation()}>
+          <ContentContainer>
+            <NoteTitle
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
+              value={title}
+            />
+            <Textarea
+              onChange={(e) => handleDescriptionChange(e)}
+              value={description}
+              rows={rowSize}
+              placeholder="Add Description"
+            />
+          </ContentContainer>
+          <ActionContainer>
+            <IconsContainer>
+              <IconContainer onClick={togglePinStatus}>
+                {/* pinned is a boolean */}
+                {note.pinned ? (
+                  <RiPushpin2Fill size={"1.125rem"} />
+                ) : (
+                  <RiPushpin2Line size={"1.125rem"} />
+                )}
+              </IconContainer>
+              <IconContainer onClick={toggleNoteStatus}>
+                {note.status === Status.ACTIVE ? (
+                  <RiInboxArchiveLine size={"1.125rem"} />
+                ) : (
+                  <RiInboxUnarchiveLine size={"1.125rem"} />
+                )}
+              </IconContainer>
+              <IconContainer onClick={handleDeleteNote}>
+                <AiOutlineDelete size={"1.125rem"} />
+              </IconContainer>
+            </IconsContainer>
+            <CloseButton onClick={handleCloseModal}>Close</CloseButton>
+          </ActionContainer>
+        </ModalCard>
+      )}
     </Modal>
   );
 };
