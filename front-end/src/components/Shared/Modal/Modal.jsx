@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const Modal = ({ children }) => {
-  return <StyledModal>{children}</StyledModal>;
+const Modal = ({ onClick, children }) => {
+  return <StyledModal onClick={onClick}>{children}</StyledModal>;
 };
 
 export default Modal;

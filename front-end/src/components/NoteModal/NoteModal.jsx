@@ -30,8 +30,8 @@ const NoteModal = () => {
   const history = useHistory();
   const location = useLocation();
 
+  const isNoteLoading = useSelector((state) => state.notes.isNoteLoading);
   const note = useSelector((state) => state.notes.note);
-
   const minRows = 1,
     maxRows = 10;
   const id = location.pathname.split("/Note/")[1];
@@ -163,8 +163,13 @@ const NoteModal = () => {
       });
   };
 
+
+
   return (
     <Modal onClick={handleCloseModal}>
+        {isNoteLoading ?
+     <div>Loading...</div> :
+  
       <ModalCard onClick={(e) => e.stopPropagation()}>
         <ContentContainer>
           <NoteTitle
@@ -202,7 +207,7 @@ const NoteModal = () => {
           </IconsContainer>
           <CloseButton onClick={handleCloseModal}>Close</CloseButton>
         </ActionContainer>
-      </ModalCard>
+      </ModalCard>}
     </Modal>
   );
 };
@@ -246,5 +251,3 @@ export const IconContainer = styled.div`
   }
   margin: 0 0.5rem;
 `;
-
-const Button = styled.div``;

@@ -12,7 +12,7 @@ const Navbar = ({ toggleSideBar, path }) => {
     header = "Active";
   } else if (path === "/archive") {
     header = "Archive";
-  } else {
+  } else if(path.includes("/search")) {
     header = "Search"
   }
 

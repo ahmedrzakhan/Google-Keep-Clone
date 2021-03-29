@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { theme } from "./../../theme/theme";
+import { useHistory } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
+import { theme } from "./../../theme/theme";
 
 const Search = () => {
+  const history = useHistory();
+  const [query, setQuery] = useState(history.location.pathname.split('/search/')[1] || "");
+  const queryRef = useRef(null);
+
+  useEffect(() => {
+    if (history.location.pathname === "/search") {
+      queryRef.current.focus();
+    }
+    if (query.length) {
+      history.push(`/search/${query}`);
+    }
+  }, [history, query]);
+
   return (
     <SearchContainer>
       <SearchBox>
         <AiOutlineSearch size={"1.25rem"} />
-        <SearchInput />
-        <ImCross size={"0.875rem"} />
+        <SearchInput
+          ref={queryRef}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => history.push("/search")}
+          value={query}
+        />
+        {query.length ? <ImCross size={"0.875rem"} /> : null}
       </SearchBox>
     </SearchContainer>
   );
