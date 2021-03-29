@@ -144,6 +144,16 @@ const NoteModal = () => {
 
   const handleCloseModal = () => {
     const { _id, pinned, status } = note;
+
+    if (
+      JSON.stringify(note.description) ===
+        JSON.stringify(description.split("\n")) &&
+      JSON.stringify(note.title) === JSON.stringify(title)
+    ) {
+      goBack();
+      return;
+    }
+
     const payload = {
       note: {
         description: description.split("\n"),
