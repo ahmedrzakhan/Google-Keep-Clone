@@ -6,7 +6,7 @@ import {
   deleteNote,
   getNoteById,
   updateNote,
-} from "./../../redux/notesReducer/actions";
+} from "../../redux/notesReducer/actions";
 import {
   RiInboxArchiveLine,
   RiInboxUnarchiveLine,
@@ -14,13 +14,14 @@ import {
   RiPushpin2Line,
 } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
-import Input from "./../Shared/Input/Input";
-import Textarea from "./../Shared/Textarea/Textarea";
-import { CloseButton } from "./../../pages/Active";
-import { Status } from "./../../redux/notesReducer/reducer";
-import { theme } from "./../../theme/theme";
+import Modal from "../Shared/Modal/Modal";
+import Input from "../Shared/Input/Input";
+import Textarea from "../Shared/Textarea/Textarea";
+import { CloseButton } from "../../pages/Active";
+import { Status } from "../../redux/notesReducer/reducer";
+import { theme } from "../../theme/theme";
 
-const Modal = () => {
+const NoteModal = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState([]);
   const [rowSize, setRowSize] = useState(1);
@@ -163,7 +164,7 @@ const Modal = () => {
   };
 
   return (
-    <ModalContainer onClick={handleCloseModal}>
+    <Modal onClick={handleCloseModal}>
       <ModalCard onClick={(e) => e.stopPropagation()}>
         <ContentContainer>
           <NoteTitle
@@ -202,23 +203,11 @@ const Modal = () => {
           <CloseButton onClick={handleCloseModal}>Close</CloseButton>
         </ActionContainer>
       </ModalCard>
-    </ModalContainer>
+    </Modal>
   );
 };
 
-export default Modal;
-
-const ModalContainer = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-`;
+export default NoteModal;
 
 const ModalCard = styled.div`
   background: ${theme.white};

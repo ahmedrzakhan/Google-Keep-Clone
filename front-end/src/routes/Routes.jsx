@@ -1,8 +1,9 @@
 import React from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
-import Modal from "../components/Modal/Modal";
+import Modal from "../components/NoteModal/NoteModal";
 import ActivePage from "./../pages/Active";
 import ArchivePage from "./../pages/Archive";
+import NoteModal from "./../components/NoteModal/NoteModal";
 
 const Routes = () => {
   let location = useLocation();
@@ -15,7 +16,7 @@ const Routes = () => {
         <Route path="/archive" render={() => <ArchivePage />} />
         <Route path="*" render={() => <ActivePage />} />
       </Switch>
-      {background && <Route path="/Note/:id" children={() => <Modal />} />}
+      {background && <Route path="/Note/:id" children={() => <NoteModal />} />}
     </>
   );
 };
