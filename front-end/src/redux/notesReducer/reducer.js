@@ -26,7 +26,9 @@ export const Status = {
 
 const initialState = {
   areNotesLoading: false,
+  isNoteLoading: false,
   errorGettingNotes: false,
+  errorGettingNote: false,
   notes: [],
   note: {},
 };
@@ -109,15 +111,15 @@ export const notesReducer = (state = initialState, { type, payload }) => {
     }
 
     case GET_NOTE_BY_ID_REQUEST: {
-      return { ...state };
+      return { ...state, isNoteLoading: true };
     }
 
     case GET_NOTE_BY_ID_SUCCESS: {
-      return { ...state, note: payload };
+      return { ...state, isNoteLoading: false, note: payload };
     }
 
     case GET_NOTE_BY_ID_FAILURE: {
-      return { ...state };
+      return { ...state, isNoteLoading: false, errorGettingNote: true };
     }
 
     case GET_NOTES_BY_SEARCH_REQUEST: {

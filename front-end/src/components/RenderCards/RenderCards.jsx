@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { deleteNote, updateNote } from "./../../redux/notesReducer/actions";
 import { theme } from "./../../theme/theme";
@@ -15,7 +15,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 
 const RenderCards = ({ notes }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const location = useLocation();
 
   const togglePinStatus = (note) => {
@@ -31,7 +30,6 @@ const RenderCards = ({ notes }) => {
       note: { description, pinned, status, title, date },
       _id,
     };
-
     dispatch(updateNote(payload));
   };
 
@@ -69,9 +67,7 @@ const RenderCards = ({ notes }) => {
               state: { background: location },
             }}
           >
-            <NoteTitle len={note.title.length}>
-              {note.title}
-            </NoteTitle>
+            <NoteTitle len={note.title.length}>{note.title}</NoteTitle>
             <NoteDescription len={note.description.length}>
               {note.description.map((description, index) => {
                 if (!description.trim().length) {
@@ -83,7 +79,7 @@ const RenderCards = ({ notes }) => {
             </NoteDescription>
           </Link>
 
-          <ActionsContainer onClick={(e) => e.stopPropagation()}>
+          <ActionsContainer>
             <IconContainer onClick={() => togglePinStatus(note)}>
               {/* pinned is a boolean */}
               {note.pinned ? (
@@ -155,7 +151,7 @@ const ActionsContainer = styled.div`
   }
 `;
 
-const IconContainer = styled.div`
+export const IconContainer = styled.div`
   cursor: pointer;
   padding: 0.5rem;
   &:hover {

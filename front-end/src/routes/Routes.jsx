@@ -13,6 +13,7 @@ const Routes = () => {
       <Switch location={background || location}>
         <Route path="/" exact render={() => <ActivePage />} />
         <Route path="/archive" render={() => <ArchivePage />} />
+        <Route path="*" render={() => <ActivePage />} />
       </Switch>
       {background && <Route path="/Note/:id" children={() => <Modal />} />}
     </>

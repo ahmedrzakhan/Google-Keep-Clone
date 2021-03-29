@@ -35,32 +35,29 @@ const ActivePage = () => {
   ]);
 
   const handleDescriptionChange = (e) => {
-    const textareaLineHeight = 36;
+    const { target } = e;
+    let { rows, scrollHeight, value } = target;
 
-    const previousRows = e.target.rows;
-    e.target.rows = minRows;
-    const currentRows = ~~(e.target.scrollHeight / textareaLineHeight);
+    const textareaLineHeight = 20;
+    const previousRows = rows;
+    rows = minRows;
+    const currentRows = ~~(scrollHeight / textareaLineHeight);
 
     if (currentRows === previousRows) {
-      e.target.rows = currentRows;
+      rows = currentRows;
+    } else if (currentRows >= maxRows) {
+      rows = maxRows;
     }
 
-    if (currentRows >= maxRows) {
-      e.target.rows = maxRows;
-      e.target.scrollTop = e.target.scrollHeight;
-    }
-    setDescription(e.target.value);
+    setDescription(value);
     setRowSize(currentRows < maxRows ? currentRows : maxRows);
   };
 
   const handleCloseNotepad = () => {
     if (title.length || description.length) {
-      // converting description into array to be able to
-      //  render it in next line as it was created
-      const noteDescription = description.split("\n");
-
       const payload = {
-        description: noteDescription,
+        date: new Date(),
+        description: description.split("\n"),
         pinned: false,
         status: Status.ACTIVE,
         title,
@@ -68,9 +65,9 @@ const ActivePage = () => {
 
       dispatch(addNote(payload))
         .then(() => {
-          setRowSize(minRows);
           setDescription("");
           setTitle("");
+          setRowSize(minRows);
         })
         .catch((err) => console.log("Add Note Failed", err));
     }
@@ -155,21 +152,12 @@ const NotepadWrapper = styled.div`
 `;
 
 const NoteDescriptionInputWrapper = styled.div`
-  padding: 0 0.5rem;
+  padding: 0.5rem;
   border-radius: 0.125rem;
   box-shadow: ${({ showNotepad }) =>
     showNotepad
       ? 0
       : `0.75px 0.75px 5px ${theme.dullGrey}, -0.75px -0.75px 3px ${theme.dullGrey}`};
-`;
-
-const NoteTitleInput = styled.input`
-  border: none;
-  outline: none;
-  padding: 0.5rem 0;
-  font-size: 0.875rem;
-  font-weight: 700;
-  width: 100%;
 `;
 
 const CloseButtonContainer = styled.div`
@@ -179,7 +167,7 @@ const CloseButtonContainer = styled.div`
   width: 100%;
 `;
 
-const CloseButton = styled.button`
+export const CloseButton = styled.button`
   background: transparent;
   border: none;
   border-radius: 0.125rem;

@@ -20,7 +20,11 @@ const ArchivePage = () => {
       {notes.length === 0 ? (
         <MessageContainer>Archived notes will appear here</MessageContainer>
       ) : (
-        <RenderCards notes={notes} />
+        <RenderCards
+          notes={notes.filter(
+            (note) => note.status === Status.ARCHIVE && !note.pinned
+          )}
+        />
       )}
     </Layout>
   );

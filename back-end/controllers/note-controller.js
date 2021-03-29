@@ -2,13 +2,14 @@ const Note = require("../models/Note");
 
 // Create Note
 const addNote = async (req, res) => {
-  const { description, status, title } = req.body;
+  const { date, description, status, title } = req.body;
   let { pinned } = req.body;
   if (status === "Archive") {
     pinned = false;
   }
 
   const newNote = new Note({
+    date,
     description,
     pinned,
     status,
