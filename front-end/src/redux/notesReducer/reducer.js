@@ -26,12 +26,14 @@ export const Status = {
 
 const initialState = {
   areNotesLoading: false,
-  isNoteLoading: false,
+  isNoteLoading: false, // for single note
+  isUpdatingNote: false,
+  isDeletingNote: false,
   errorGettingNotes: false,
-  errorGettingNote: false,
+  errorGettingNote: false, // for single note
   notes: [],
   filteredNotes: [], // for search results
-  note: {},
+  note: {}, // for single note
 };
 
 export const notesReducer = (state = initialState, { type, payload }) => {
@@ -55,19 +57,22 @@ export const notesReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         areNotesLoading: false,
-        errorGettingNotes: false,
+        errorGettingNotes: true,
       };
     }
 
     case UPDATE_NOTE_REQUEST: {
       return {
         ...state,
+        isUpdatingNote: true,
       };
     }
 
     case UPDATE_NOTE_SUCCESS: {
       return {
         ...state,
+        isUpdatingNote: false,
+        filteredNotes: payload,
         notes: payload,
       };
     }
@@ -75,18 +80,22 @@ export const notesReducer = (state = initialState, { type, payload }) => {
     case UPDATE_NOTE_FAILURE: {
       return {
         ...state,
+        isUpdatingNote: false,
       };
     }
 
     case DELETE_NOTE_REQUEST: {
       return {
         ...state,
+        isDeletingNote: true,
       };
     }
 
     case DELETE_NOTE_SUCCESS: {
       return {
         ...state,
+        isDeletingNote: false,
+        filteredNotes: payload,
         notes: payload,
       };
     }
@@ -94,21 +103,23 @@ export const notesReducer = (state = initialState, { type, payload }) => {
     case DELETE_NOTE_FAILURE: {
       return {
         ...state,
+        isDeletingNote: false,
       };
     }
 
     case ADD_NOTE_REQUEST: {
       return {
         ...state,
+        isAddingNote: true
       };
     }
 
     case ADD_NOTE_SUCCESS: {
-      return { ...state, notes: [...state.notes, payload] };
+      return { ...state, isAddingNote: false, notes: [...state.notes, payload] };
     }
 
     case ADD_NOTE_FAILURE: {
-      return { ...state };
+      return { ...state, isAddingNote: false };
     }
 
     case GET_NOTE_BY_ID_REQUEST: {
@@ -124,11 +135,11 @@ export const notesReducer = (state = initialState, { type, payload }) => {
     }
 
     case GET_NOTES_BY_SEARCH_REQUEST: {
-      return { ...state, areNotesLoading: true, };
+      return { ...state, areNotesLoading: true };
     }
 
     case GET_NOTES_BY_SEARCH_SUCCESS: {
-      return { ...state, areNotesLoading: false, filteredNotes: payload };
+      return { ...state, areNotesLoading: false, notes: payload, filteredNotes: payload };
     }
 
     case GET_NOTES_BY_SEARCH_FAILURE: {

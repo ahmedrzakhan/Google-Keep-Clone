@@ -110,14 +110,15 @@ export default RenderCards;
 const CardsContainer = styled.div`
   column-count: 4;
   column-gap: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 const NoteCard = styled.div`
   border: 1px solid ${theme.grey};
   border-radius: 0.5rem;
   display: inline-block;
-  margin: 0.5rem 0;
-  min-height: 3.75rem;
+  margin-top: 0.5rem;
+  /* min-height: 5rem; */
   padding: 1rem 1.5rem 0.5rem;
   width: 14.5rem;
   word-break: break-all;
@@ -130,18 +131,15 @@ const NoteCard = styled.div`
 
 const NoteTitle = styled.div`
   font-weight: 700;
-  /* If title is empty remove margin */
-  margin-bottom: ${({ len }) => (len ? "1rem" : 0)};
 `;
 
 const NoteDescription = styled.div`
-  /* If description is empty remove margin */
-  margin-bottom: ${({ len }) => (len ? "1.5rem" : 0)};
 `;
 
 const ActionsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
+  margin-top: 1rem;
   opacity: 0;
   transition: opacity 0.218s ease-in;
 

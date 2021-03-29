@@ -38,6 +38,11 @@ const Searchbar = () => {
     }
   }, [dispatch, debouncedSearchTerm, query.length]);
 
+  const handleOnSearchBlur = () => {
+    setFocused(false);
+    setQuery("");
+  };
+
   const handleOnSearchFocus = () => {
     history.push("/search");
     setFocused(true);
@@ -51,14 +56,14 @@ const Searchbar = () => {
         </IconContainer>
         <SearchInput
           onChange={(e) => setQuery(e.target.value)}
-          onBlur={() => setFocused(false)}
+          onBlur={handleOnSearchBlur}
           onFocus={handleOnSearchFocus}
           ref={queryRef}
           value={query}
         />
         {query.length ? (
           <IconContainer>
-            <ImCross onClick={() => history.push("/")} size={"0.875rem"} />
+            <ImCross onClick={() => setQuery("")} size={"0.875rem"} />
           </IconContainer>
         ) : null}
       </SearchBox>

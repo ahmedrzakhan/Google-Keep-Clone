@@ -38,11 +38,10 @@ export default memo(Navbar);
 
 const NavbarContainer = styled.div`
   background: ${theme.white};
-  border-bottom: 1px solid ${theme.grey};
+  border-bottom: ${({ boxShadow }) =>
+    boxShadow ? 0 : `1px solid ${theme.grey}`};
   box-shadow: ${({ boxShadow }) =>
-    boxShadow
-      ? "0 1px 10px rgb(0 0 0 / 10%), 0 1px 10px rgb(0 0 0 / 7%)"
-      : 0};
+    boxShadow ? "0 1px 10px rgb(0 0 0 / 10%), 0 1px 10px rgb(0 0 0 / 7%)" : 0};
   margin-bottom: 0.125rem;
   padding: 0.5rem;
   position: sticky;

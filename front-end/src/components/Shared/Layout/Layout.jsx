@@ -8,19 +8,17 @@ const Layout = ({ children }) => {
   const history = useHistory();
 
   const [isSideBarExpanded, setIsSideBarExpanded] = useState(false);
-  const [boxShadow, setBoxShadow] = useState(false);
+  const [showBoxShadow, setShowBoxShadow] = useState(false);
 
   const layoutRef = useRef(null);
 
   const handleScroll = () => {
     const scrollPosition =
       layoutRef.current && layoutRef.current.getBoundingClientRect().top;
-    console.log("scrollPosition", scrollPosition);
-    console.log("boxShadow", boxShadow);
     if (scrollPosition < 0) {
-      setBoxShadow(true);
+      setShowBoxShadow(true);
     } else {
-      setBoxShadow(false);
+      setShowBoxShadow(false);
     }
   };
 
@@ -38,7 +36,7 @@ const Layout = ({ children }) => {
   return (
     <LayoutContainer ref={layoutRef}>
       <Navbar
-        boxShadow={boxShadow}
+        boxShadow={showBoxShadow}
         path={pathname}
         toggleSideBar={toggleSideBar}
       />
@@ -52,7 +50,8 @@ const Layout = ({ children }) => {
 
 export default Layout;
 
-const LayoutContainer = styled.div``;
+const LayoutContainer = styled.div`
+`;
 
 const LayoutMain = styled.div`
   display: flex;
