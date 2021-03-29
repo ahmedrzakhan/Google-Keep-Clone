@@ -5,6 +5,7 @@ import Layout from "../components/Shared/Layout/Layout";
 import RenderCards from "./../components/RenderCards/RenderCards";
 import Textarea from "../components/Shared/Textarea/Textarea";
 import Input from "./../components/Shared/Input/Input";
+import Loader, { LoaderContainer } from "./../components/Shared/Loader/Loader";
 import { addNote, getNotesByType } from "./../redux/notesReducer/actions";
 import { Status } from "./../redux/notesReducer/reducer";
 import { theme } from "./../theme/theme";
@@ -17,6 +18,7 @@ const ActivePage = () => {
 
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.notes);
+  const areNotesLoading = useSelector((state) => state.notes.areNotesLoading);
 
   const minRows = 1,
     maxRows = 10;
@@ -104,21 +106,27 @@ const ActivePage = () => {
         </NotepadWrapper>
       </NotepadContainer>
 
-      {!pinnedActiveNotes.length && !unPinnedActiveNotes.length && (
-        <MessageContainer>Add new Notes</MessageContainer>
-      )}
-
-      {pinnedActiveNotes.length > 0 && (
+      {areNotesLoading ? (
+        <LoaderContainer>
+          <Loader />
+        </LoaderContainer>
+      ) : (
         <>
-          <ListTitle>PINNED</ListTitle>
-          <RenderCards notes={pinnedActiveNotes} />
-        </>
-      )}
-
-      {unPinnedActiveNotes.length > 0 && (
-        <>
-          <ListTitle>Others</ListTitle>
-          <RenderCards notes={unPinnedActiveNotes} />
+          {!pinnedActiveNotes.length && !unPinnedActiveNotes.length && (
+            <MessageContainer>Add new Notes</MessageContainer>
+          )}
+          {pinnedActiveNotes.length > 0 && (
+            <>
+              <ListTitle>PINNED</ListTitle>
+              <RenderCards notes={pinnedActiveNotes} />
+            </>
+          )}
+          {unPinnedActiveNotes.length > 0 && (
+            <>
+              <ListTitle>Others</ListTitle>
+              <RenderCards notes={unPinnedActiveNotes} />
+            </>
+          )}
         </>
       )}
     </Layout>

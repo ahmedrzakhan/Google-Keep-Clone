@@ -17,6 +17,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import Modal from "../Shared/Modal/Modal";
 import Input from "../Shared/Input/Input";
 import Textarea from "../Shared/Textarea/Textarea";
+import Loader from "./../Shared/Loader/Loader";
 import { CloseButton } from "../../pages/Active";
 import { Status } from "../../redux/notesReducer/reducer";
 import { theme } from "../../theme/theme";
@@ -166,7 +167,7 @@ const NoteModal = () => {
   return (
     <Modal onClick={handleCloseModal}>
       {isNoteLoading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <ModalCard onClick={(e) => e.stopPropagation()}>
           <ContentContainer>
