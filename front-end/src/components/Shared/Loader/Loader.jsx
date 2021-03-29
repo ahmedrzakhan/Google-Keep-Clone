@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { theme } from "./../../../theme/theme";
 
 const Loader = () => {
   return <StyledLoader />;
@@ -8,8 +9,8 @@ const Loader = () => {
 export default Loader;
 
 const StyledLoader = styled.div`
-  border: 2px solid #f3f3f3;
-  border-top: 2px solid #3498db;
+  border: 2px solid ${theme.white};
+  border-top: 2px solid ${theme.lightBlue};
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;

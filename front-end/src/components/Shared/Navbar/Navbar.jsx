@@ -5,7 +5,7 @@ import Searchbar from "../../Searchbar/Searchbar";
 import { AiFillBook, AiOutlineMenu } from "react-icons/ai";
 import { theme } from "./../../../theme/theme";
 
-const Navbar = ({ toggleSideBar, path }) => {
+const Navbar = ({ boxShadow, path, toggleSideBar }) => {
   const history = useHistory();
   let header;
   if (path === "/") {
@@ -17,7 +17,7 @@ const Navbar = ({ toggleSideBar, path }) => {
   }
 
   return (
-    <NavbarContainer>
+    <NavbarContainer boxShadow={boxShadow}>
       <NavbarWrapper>
         <MenuAndLogo>
           <MenuConatiner>
@@ -39,7 +39,11 @@ export default memo(Navbar);
 const NavbarContainer = styled.div`
   background: ${theme.white};
   border-bottom: 1px solid ${theme.grey};
-  margin: 0.125rem 0;
+  box-shadow: ${({ boxShadow }) =>
+    boxShadow
+      ? "0 1px 10px rgb(0 0 0 / 10%), 0 1px 10px rgb(0 0 0 / 7%)"
+      : 0};
+  margin-bottom: 0.125rem;
   padding: 0.5rem;
   position: sticky;
   top: 0;
