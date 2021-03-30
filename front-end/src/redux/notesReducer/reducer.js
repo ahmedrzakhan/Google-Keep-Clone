@@ -17,11 +17,27 @@ import {
   GET_NOTES_BY_SEARCH_REQUEST,
   GET_NOTES_BY_SEARCH_SUCCESS,
   GET_NOTES_BY_SEARCH_FAILURE,
+  TOGGLE_DARK_THEME,
+  CLEAR_NOTES,
 } from "./actionTypes";
 
 export const Status = {
   ACTIVE: "Active",
   ARCHIVE: "Archive",
+};
+
+export const loadData = (key) => {
+  try {
+    let data = localStorage.getItem(key);
+    data = JSON.parse(data);
+    return data;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+export const saveData = (key, data) => {
+  localStorage.setItem(key, JSON.stringify(data));
 };
 
 const initialState = {
@@ -34,6 +50,7 @@ const initialState = {
   notes: [],
   filteredNotes: [], // for search results
   note: {}, // for single note
+  darkThemeEnabled: loadData("theme") && loadData("theme").darkThemeEnabled || false,
 };
 
 export const notesReducer = (state = initialState, { type, payload }) => {
@@ -110,12 +127,16 @@ export const notesReducer = (state = initialState, { type, payload }) => {
     case ADD_NOTE_REQUEST: {
       return {
         ...state,
-        isAddingNote: true
+        isAddingNote: true,
       };
     }
 
     case ADD_NOTE_SUCCESS: {
-      return { ...state, isAddingNote: false, notes: [...state.notes, payload] };
+      return {
+        ...state,
+        isAddingNote: false,
+        notes: [...state.notes, payload],
+      };
     }
 
     case ADD_NOTE_FAILURE: {
@@ -139,11 +160,27 @@ export const notesReducer = (state = initialState, { type, payload }) => {
     }
 
     case GET_NOTES_BY_SEARCH_SUCCESS: {
-      return { ...state, areNotesLoading: false, notes: payload, filteredNotes: payload };
+      return {
+        ...state,
+        areNotesLoading: false,
+        notes: payload,
+        filteredNotes: payload,
+      };
     }
 
     case GET_NOTES_BY_SEARCH_FAILURE: {
       return { ...state, areNotesLoading: false, errorGettingNotes: false };
+    }
+
+    case TOGGLE_DARK_THEME: {
+      saveData("theme", {
+        darkThemeEnabled: !state.darkThemeEnabled,
+      });
+      return { ...state, darkThemeEnabled: !state.darkThemeEnabled };
+    }
+
+    case CLEAR_NOTES: {
+      return { ...state, filteredNotes: [] };
     }
 
     default:

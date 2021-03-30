@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Sidebar from "./../Sidebar/Sidebar";
 import Navbar from "./../Navbar/Navbar";
+import { background, textColor } from "./../../../theme/theme";
 
 const Layout = ({ children }) => {
   const history = useHistory();
@@ -51,6 +52,9 @@ const Layout = ({ children }) => {
 export default Layout;
 
 const LayoutContainer = styled.div`
+  background: ${background};
+  color: ${textColor};
+  height: 100%;
 `;
 
 const LayoutMain = styled.div`

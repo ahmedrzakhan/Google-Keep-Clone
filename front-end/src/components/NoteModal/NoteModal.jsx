@@ -20,7 +20,7 @@ import Textarea from "../Shared/Textarea/Textarea";
 import Loader from "./../Shared/Loader/Loader";
 import { CloseButton } from "../../pages/Active";
 import { Status } from "../../redux/notesReducer/reducer";
-import { theme } from "../../theme/theme";
+import { background, iconBackground, textColor } from "../../theme/theme";
 
 const NoteModal = () => {
   const [title, setTitle] = useState("");
@@ -145,6 +145,7 @@ const NoteModal = () => {
   const handleCloseModal = () => {
     const { _id, pinned, status } = note;
 
+    // make update API call only if values are updated
     if (
       JSON.stringify(note.description) ===
         JSON.stringify(description.split("\n")) &&
@@ -181,12 +182,14 @@ const NoteModal = () => {
       ) : (
         <ModalCard onClick={(e) => e.stopPropagation()}>
           <ContentContainer>
-            <NoteTitle
+            <Input
+              autoFocus={title.length > 0}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
               value={title}
             />
             <Textarea
+              autoFocus={description.length > 0}
               onChange={(e) => handleDescriptionChange(e)}
               value={description}
               rows={rowSize}
@@ -225,19 +228,20 @@ const NoteModal = () => {
 export default NoteModal;
 
 const ModalCard = styled.div`
-  background: ${theme.white};
+  background: ${background};
   border-radius: 0.25rem;
+  color: ${textColor};
+  max-height: 40rem;
   width: 35rem;
 `;
 
 const ContentContainer = styled.div`
   padding: 1rem 1rem 0 1rem;
-  max-height: 60vh;
 `;
 
-const NoteTitle = styled(Input)`
-  font-size: 1.25rem;
-`;
+// const NoteTitle = styled(ForwardedInput)`
+//   font-size: 1.25rem;
+// `;
 
 const ActionContainer = styled.div`
   align-items: center;
@@ -255,7 +259,7 @@ export const IconContainer = styled.div`
   cursor: pointer;
   padding: 0.5rem;
   &:hover {
-    background: ${theme.snowWhite};
+    background: ${iconBackground};
     border-radius: 50%;
   }
   margin: 0 0.5rem;

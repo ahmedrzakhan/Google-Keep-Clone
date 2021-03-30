@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { theme } from "./../../../theme/theme";
+import { appTheme } from "./../../../theme/theme";
 
 const Loader = () => {
   return <StyledLoader />;
@@ -9,8 +9,8 @@ const Loader = () => {
 export default Loader;
 
 const StyledLoader = styled.div`
-  border: 2px solid ${theme.white};
-  border-top: 2px solid ${theme.lightBlue};
+  border: 2px solid ${appTheme.white};
+  border-top: 2px solid ${appTheme.lightBlue};
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;

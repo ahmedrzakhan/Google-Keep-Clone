@@ -1,13 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import theme from "styled-theming";
 import useDebounce from "../../hooks/useDebounce";
 import { AiOutlineSearch } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
-import { theme } from "../../theme/theme";
+import { appTheme } from "../../theme/theme";
 import { getNotesBySearch } from "../../redux/notesReducer/actions";
 import { IconContainer } from "../RenderCards/RenderCards";
+
+const barBackgroundFocused = theme("theme", {
+  light: appTheme.white,
+  dark: appTheme.white,
+});
+
+const barBackgroundBlurred = theme("theme", {
+  light: appTheme.lightGrey,
+  dark: appTheme.secondaryGrey,
+});
 
 const Searchbar = () => {
   const history = useHistory();
@@ -17,6 +28,8 @@ const Searchbar = () => {
   );
   const [focused, setFocused] = React.useState(false);
   const queryRef = useRef(null);
+  const darkThemeEnabled = useSelector((state) => state.notes.darkThemeEnabled);
+
   const debouncedSearchTerm = useDebounce(query, 500);
 
   useEffect(() => {
@@ -52,7 +65,11 @@ const Searchbar = () => {
     <SearchContainer>
       <SearchBox focused={focused}>
         <IconContainer>
-          <AiOutlineSearch size={"1.375rem"} />
+          {darkThemeEnabled ? (
+            <AiOutlineSearch color={appTheme.darkGrey} size={"1.375rem"} />
+          ) : (
+            <AiOutlineSearch color={appTheme.black} size={"1.375rem"} />
+          )}
         </IconContainer>
         <SearchInput
           onChange={(e) => setQuery(e.target.value)}
@@ -62,8 +79,12 @@ const Searchbar = () => {
           value={query}
         />
         {query.length ? (
-          <IconContainer>
-            <ImCross onClick={() => setQuery("")} size={"0.875rem"} />
+          <IconContainer onClick={() => setQuery("")}>
+            {darkThemeEnabled ? (
+              <ImCross color={appTheme.darkGrey} size={"0.875rem"} />
+            ) : (
+              <ImCross color={appTheme.black} size={"0.875rem"} />
+            )}
           </IconContainer>
         ) : null}
       </SearchBox>
@@ -75,12 +96,13 @@ export default Searchbar;
 
 const SearchContainer = styled.div`
   margin-left: 1rem;
-  width: 75%;
+  width: 70%;
 `;
 
 const SearchBox = styled.div`
   align-items: center;
-  background: ${({ focused }) => (focused ? theme.white : theme.lightGrey)};
+  background: ${({ focused }) =>
+    focused ? barBackgroundFocused : barBackgroundBlurred};
   border-radius: 0.375rem;
   box-shadow: ${({ focused }) =>
     focused

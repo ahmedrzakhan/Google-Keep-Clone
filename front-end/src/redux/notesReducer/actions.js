@@ -18,6 +18,8 @@ import {
   GET_NOTES_BY_SEARCH_REQUEST,
   GET_NOTES_BY_SEARCH_SUCCESS,
   GET_NOTES_BY_SEARCH_FAILURE,
+  TOGGLE_DARK_THEME,
+  CLEAR_NOTES
 } from "./actionTypes";
 // GET NOTES BY TYPE
 export const getNotesByTypeRequest = (payload) => ({
@@ -231,3 +233,11 @@ export const getNotesBySearch = (payload) => async (dispatch) => {
     dispatch(getNotesBySearchFailure(err));
   }
 };
+
+export const toggleDarkTheme = () => ({
+  type: TOGGLE_DARK_THEME,
+});
+
+export const clearNotes = () => ({
+  type: CLEAR_NOTES
+})

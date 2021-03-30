@@ -1,9 +1,15 @@
 import React, { memo } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import theme from "styled-theming";
 import { AiOutlineBulb } from "react-icons/ai";
 import { IoArchiveOutline } from "react-icons/io5";
-import { theme } from "./../../../theme/theme";
+import { appTheme, background, textColor } from "./../../../theme/theme";
+
+export const labelAndIconBackground = theme("theme", {
+  light: appTheme.lightYellow,
+  dark: appTheme.darkYellow,
+});
 
 const Sidebar = ({ isExpanded, path }) => {
   const history = useHistory();
@@ -41,6 +47,7 @@ const Sidebar = ({ isExpanded, path }) => {
 export default memo(Sidebar);
 
 const SidebarContainer = styled.div`
+  background: ${background};
   min-width: ${({ isExpanded }) => (isExpanded ? "12rem" : "3rem")};
   transition: min-width 0.2s ease 0s;
 `;
@@ -51,7 +58,8 @@ const SidebarWrapper = styled.div`
 `;
 
 const IconContainer = styled.div`
-  background: ${({ active }) => (active ? theme.lightYellow : "transparent")};
+  background: ${({ active }) =>
+    active ? labelAndIconBackground : "transparent"};
   border-radius: 50%;
   margin-left: 1rem;
   padding: 0.5rem;
@@ -65,7 +73,7 @@ const ListContainer = styled.div`
 const SecondaryLink = styled.div`
   align-items: center;
   background: ${({ isExpanded, active }) =>
-    isExpanded && active ? theme.lightYellow : "transparent"};
+    isExpanded && active ? labelAndIconBackground : "transparent"};
   border-radius: 0 1.675rem 1.675rem 0;
   cursor: pointer;
   display: flex;
@@ -73,5 +81,6 @@ const SecondaryLink = styled.div`
 `;
 
 const LinkLabel = styled.div`
+  color: ${textColor};
   margin-left: 1.5rem;
 `;

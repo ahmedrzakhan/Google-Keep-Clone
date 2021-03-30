@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { deleteNote, updateNote } from "./../../redux/notesReducer/actions";
-import { theme } from "./../../theme/theme";
+import { appTheme, borderColor, iconBackground, textColor } from "./../../theme/theme";
 import { Status } from "./../../redux/notesReducer/reducer";
 import {
   RiInboxArchiveLine,
@@ -60,7 +60,7 @@ const RenderCards = ({ notes }) => {
       {notes.map((note) => (
         <NoteCard key={note._id}>
           <Link
-            style={{ textDecoration: "none", color: `${theme.black}` }}
+            style={{ textDecoration: "none" }}
             to={{
               pathname: `/Note/${note._id}`,
               // This link sets the `background` in location state.
@@ -114,26 +114,27 @@ const CardsContainer = styled.div`
 `;
 
 const NoteCard = styled.div`
-  border: 1px solid ${theme.grey};
+  border: 1px solid ${borderColor};
   border-radius: 0.5rem;
   display: inline-block;
   margin-top: 0.5rem;
-  /* min-height: 5rem; */
   padding: 1rem 1.5rem 0.5rem;
   width: 14.5rem;
   word-break: break-all;
 
   &:hover {
-    box-shadow: inset 0.25px 0.25px 0.25px ${theme.darkGrey},
-      inset -0.25px -0.25px 0.25px ${theme.darkGrey};
+    box-shadow: inset 0.25px 0.25px 0.25px ${appTheme.darkGrey},
+      inset -0.25px -0.25px 0.25px ${appTheme.darkGrey};
   }
 `;
 
 const NoteTitle = styled.div`
+  color: ${textColor};
   font-weight: 700;
 `;
 
 const NoteDescription = styled.div`
+  color: ${textColor};
 `;
 
 const ActionsContainer = styled.div`
@@ -153,7 +154,7 @@ export const IconContainer = styled.div`
   cursor: pointer;
   padding: ${({ noPadding }) => (noPadding ? 0 : "0.5rem")};
   &:hover {
-    background: ${theme.snowWhite};
+    background: ${iconBackground};
     border-radius: 50%;
   }
 `;

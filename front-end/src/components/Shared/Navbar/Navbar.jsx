@@ -1,12 +1,19 @@
 import React, { memo } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Searchbar from "../../Searchbar/Searchbar";
+import { toggleDarkTheme } from "./../../../redux/notesReducer/actions";
 import { AiFillBook, AiOutlineMenu } from "react-icons/ai";
-import { theme } from "./../../../theme/theme";
+import { MdBrightness6, MdBrightness7 } from "react-icons/md";
+import { appTheme, background } from "./../../../theme/theme";
+import { IconContainer } from "./../../RenderCards/RenderCards";
 
 const Navbar = ({ boxShadow, path, toggleSideBar }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const darkThemeEnabled = useSelector((state) => state.notes.darkThemeEnabled);
+
   let header;
   if (path === "/") {
     header = "Active";
@@ -17,19 +24,30 @@ const Navbar = ({ boxShadow, path, toggleSideBar }) => {
   }
 
   return (
-    <NavbarContainer boxShadow={boxShadow}>
+    <NavbarContainer boxShadow={boxShadow} darkThemeEnabled={darkThemeEnabled}>
       <NavbarWrapper>
         <MenuAndLogo>
-          <MenuConatiner>
-            <AiOutlineMenu size={"1.25rem"} onClick={toggleSideBar} />
+          <MenuConatiner onClick={toggleSideBar}>
+            {darkThemeEnabled ? (
+              <AiOutlineMenu color={appTheme.white} size={"1.25rem"} />
+            ) : (
+              <AiOutlineMenu size={"1.25rem"} />
+            )}
           </MenuConatiner>
           <LogoAndTitle onClick={() => history.push("/")}>
-            <AiFillBook color={theme.orange} size={"2.5rem"} />
+            <AiFillBook color={appTheme.orange} size={"2.5rem"} />
             <Title>Keep</Title>
           </LogoAndTitle>
         </MenuAndLogo>
         <Title>{header && header}</Title>
         <Searchbar />
+        <IconContainer onClick={() => dispatch(toggleDarkTheme())}>
+          {darkThemeEnabled ? (
+            <MdBrightness7 color={appTheme.white} size={"1.25rem"} />
+          ) : (
+            <MdBrightness6 color={appTheme.black} size={"1.25rem"} />
+          )}
+        </IconContainer>
       </NavbarWrapper>
     </NavbarContainer>
   );
@@ -37,9 +55,13 @@ const Navbar = ({ boxShadow, path, toggleSideBar }) => {
 export default memo(Navbar);
 
 const NavbarContainer = styled.div`
-  background: ${theme.white};
-  border-bottom: ${({ boxShadow }) =>
-    boxShadow ? 0 : `1px solid ${theme.grey}`};
+  background: ${background};
+  border-bottom: ${({ boxShadow, darkThemeEnabled }) =>
+    boxShadow
+      ? 0
+      : darkThemeEnabled
+      ? `1px solid ${appTheme.dullGrey}`
+      : `1px solid ${appTheme.grey}`};
   box-shadow: ${({ boxShadow }) =>
     boxShadow ? "0 1px 10px rgb(0 0 0 / 10%), 0 1px 10px rgb(0 0 0 / 7%)" : 0};
   margin-bottom: 0.125rem;
@@ -52,7 +74,7 @@ const NavbarWrapper = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 90%;
 `;
 
 const MenuAndLogo = styled.div`

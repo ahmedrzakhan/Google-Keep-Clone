@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import theme from "styled-theming";
 import Layout from "../components/Shared/Layout/Layout";
 import RenderCards from "./../components/RenderCards/RenderCards";
 import Textarea from "../components/Shared/Textarea/Textarea";
@@ -8,7 +9,12 @@ import Input from "./../components/Shared/Input/Input";
 import Loader, { LoaderContainer } from "./../components/Shared/Loader/Loader";
 import { addNote, getNotesByType } from "./../redux/notesReducer/actions";
 import { Status } from "./../redux/notesReducer/reducer";
-import { theme } from "./../theme/theme";
+import { appTheme, background, textColor } from "./../theme/theme";
+
+const CloseButtonBackground = theme("theme", {
+  light: appTheme.grey,
+  dark: appTheme.darkGrey,
+});
 
 const ActivePage = () => {
   const [showNotepad, setShowNotepad] = useState(false);
@@ -19,7 +25,7 @@ const ActivePage = () => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.notes);
   const areNotesLoading = useSelector((state) => state.notes.areNotesLoading);
-
+  const darkThemeEnabled = useSelector((state) => state.notes.darkThemeEnabled);
   const minRows = 1,
     maxRows = 10;
 
@@ -78,65 +84,78 @@ const ActivePage = () => {
   };
 
   return (
-    <Layout>
-      <NotepadContainer>
-        <NotepadWrapper showNotepad={showNotepad}>
-          {showNotepad && (
-            <Input
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Title"
-              value={title}
-            />
-          )}
-          <NoteDescriptionInputWrapper showNotepad={showNotepad}>
-            <Textarea
-              rows={rowSize}
-              onChange={(e) => handleDescriptionChange(e)}
-              onFocus={() => setShowNotepad(true)}
-              placeholder="Take a note..."
+    <ActivePageContainer>
+      <Layout>
+        <NotepadContainer>
+          <NotepadWrapper
+            darkThemeEnabled={darkThemeEnabled}
+            showNotepad={showNotepad}
+          >
+            {showNotepad && (
+              <Input
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Title"
+                value={title}
+              />
+            )}
+            <NoteDescriptionInputWrapper
+              darkThemeEnabled={darkThemeEnabled}
               showNotepad={showNotepad}
-              value={description}
-            />
-          </NoteDescriptionInputWrapper>
-          {showNotepad && (
-            <CloseButtonContainer>
-              <CloseButton onClick={handleCloseNotepad}>Close</CloseButton>
-            </CloseButtonContainer>
-          )}
-        </NotepadWrapper>
-      </NotepadContainer>
+            >
+              <Textarea
+                rows={rowSize}
+                onChange={(e) => handleDescriptionChange(e)}
+                onFocus={() => setShowNotepad(true)}
+                placeholder="Take a note..."
+                showNotepad={showNotepad}
+                value={description}
+              />
+            </NoteDescriptionInputWrapper>
+            {showNotepad && (
+              <CloseButtonContainer>
+                <CloseButton onClick={handleCloseNotepad}>Close</CloseButton>
+              </CloseButtonContainer>
+            )}
+          </NotepadWrapper>
+        </NotepadContainer>
 
-      {areNotesLoading ? (
-        <LoaderContainer>
-          <Loader />
-        </LoaderContainer>
-      ) : (
-        <>
-          {!pinnedActiveNotes.length && !unPinnedActiveNotes.length && (
-            <MessageContainer>Add new Notes</MessageContainer>
-          )}
-          {pinnedActiveNotes.length > 0 && (
-            <>
-              <ListTitle>PINNED</ListTitle>
-              <RenderCards notes={pinnedActiveNotes} />
-            </>
-          )}
-          {unPinnedActiveNotes.length > 0 && (
-            <>
-              <ListTitle>Others</ListTitle>
-              <RenderCards notes={unPinnedActiveNotes} />
-            </>
-          )}
-        </>
-      )}
-    </Layout>
+        {areNotesLoading ? (
+          <LoaderContainer>
+            <Loader />
+          </LoaderContainer>
+        ) : (
+          <>
+            {!pinnedActiveNotes.length && !unPinnedActiveNotes.length && (
+              <MessageContainer>Add new Notes</MessageContainer>
+            )}
+            {pinnedActiveNotes.length > 0 && (
+              <>
+                <ListTitle>PINNED</ListTitle>
+                <RenderCards notes={pinnedActiveNotes} />
+              </>
+            )}
+            {unPinnedActiveNotes.length > 0 && (
+              <>
+                <ListTitle>Others</ListTitle>
+                <RenderCards notes={unPinnedActiveNotes} />
+              </>
+            )}
+          </>
+        )}
+      </Layout>
+    </ActivePageContainer>
   );
 };
 
 export default ActivePage;
 
+const ActivePageContainer = styled.div`
+  background: ${background};
+  min-height: 100vh;
+`;
+
 export const ListTitle = styled.div`
-  color: ${theme.darkGrey};
+  color: ${appTheme.darkGrey};
   font-size: 0.75rem;
   font-weight: 700;
   margin-left: 1rem;
@@ -151,21 +170,27 @@ const NotepadContainer = styled.div`
 
 const NotepadWrapper = styled.div`
   border-radius: 0.25rem;
-  box-shadow: ${({ showNotepad }) =>
-    showNotepad
-      ? `0.75px 0.75px 8px ${theme.dullGrey}, -0.75px -0.75px 3px ${theme.dullGrey}`
+  border: ${({ darkThemeEnabled }) =>
+    darkThemeEnabled ? `1px solid ${appTheme.dullGrey}` : 0};
+  box-shadow: ${({ showNotepad, darkThemeEnabled }) =>
+    darkThemeEnabled
+      ? 0
+      : showNotepad
+      ? `0.75px 0.75px 8px ${appTheme.dullGrey}, -0.75px -0.75px 3px ${appTheme.dullGrey}`
       : 0};
   padding: 0.375rem 0.5rem;
   width: 33rem;
 `;
 
 const NoteDescriptionInputWrapper = styled.div`
-  padding: 0.5rem;
   border-radius: 0.125rem;
-  box-shadow: ${({ showNotepad }) =>
-    showNotepad
+  box-shadow: ${({ darkThemeEnabled, showNotepad }) =>
+    darkThemeEnabled
       ? 0
-      : `0.75px 0.75px 5px ${theme.dullGrey}, -0.75px -0.75px 3px ${theme.dullGrey}`};
+      : showNotepad
+      ? 0
+      : `0.75px 0.75px 5px ${appTheme.dullGrey}, -0.75px -0.75px 3px ${appTheme.dullGrey}`};
+  padding: 0.5rem;
 `;
 
 const CloseButtonContainer = styled.div`
@@ -179,13 +204,13 @@ export const CloseButton = styled.button`
   background: transparent;
   border: none;
   border-radius: 0.125rem;
-  color: ${theme.darkGrey};
+  color: ${textColor};
   cursor: pointer;
   font-weight: 700;
   margin-right: 0.25rem;
   padding: 0.5rem 1rem;
   &:hover {
-    background: ${theme.grey};
+    background: ${CloseButtonBackground};
   }
 `;
 
