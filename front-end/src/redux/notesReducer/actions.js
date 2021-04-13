@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   GET_NOTES_BY_TYPE_REQUEST,
   GET_NOTES_BY_TYPE_SUCCESS,
@@ -23,7 +22,7 @@ import {
   CLEAR_NOTE,
 } from "./actionTypes";
 import { apiCall } from "./../utils";
-import { BASE_URL } from "./../constants";
+
 // GET NOTES BY TYPE
 export const getNotesByTypeRequest = (payload) => ({
   type: GET_NOTES_BY_TYPE_REQUEST,
@@ -46,7 +45,7 @@ export const getNotesByType = (payload) => async (dispatch) => {
   try {
     const response = await apiCall({
       method: "get",
-      url: `${BASE_URL}/api/notes/get-notes?status=${payload}`,
+      url: `/api/notes/get-notes?status=${payload}`,
     });
     dispatch(getNotesByTypeSuccess(response.data));
   } catch (err) {
@@ -77,7 +76,7 @@ export const updateNote = (payload) => async (dispatch, getState) => {
   try {
     const response = await apiCall({
       method: "post",
-      url: `https://google-keep-node-js.herokuapp.com/api/notes/update-note/${_id}`,
+      url: `/api/notes/update-note/${_id}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -121,7 +120,7 @@ export const deleteNote = (payload) => async (dispatch, getState) => {
 
     await apiCall({
       method: "delete",
-      url: `https://google-keep-node-js.herokuapp.com/api/notes/delete-note/${payload}`,
+      url: `/api/notes/delete-note/${payload}`,
     });
     const data = notesList.filter((note) => note._id !== payload);
 
@@ -153,7 +152,7 @@ export const addNote = (payload) => async (dispatch) => {
   try {
     const response = await apiCall({
       method: "post",
-      url: "https://google-keep-node-js.herokuapp.com/api/notes/add-note",
+      url: "/api/notes/add-note",
       headers: {
         "Content-Type": "application/json",
       },
@@ -188,7 +187,7 @@ export const getNoteById = (payload) => async (dispatch) => {
   try {
     const response = await apiCall({
       method: "get",
-      url: `https://google-keep-node-js.herokuapp.com/api/notes/get-note/${payload}`,
+      url: `/api/notes/get-note/${payload}`,
     });
     // axios(config);
     dispatch(getNoteByIdSuccess(response.data));
@@ -219,7 +218,7 @@ export const getNotesBySearch = (payload) => async (dispatch) => {
   try {
     const response = await apiCall({
       method: "get",
-      url: `https://google-keep-node-js.herokuapp.com/api/notes/search-by-char/${payload}`,
+      url: `/api/notes/search-by-char/${payload}`,
     });
     dispatch(getNotesBySearchSuccess(response.data));
   } catch (err) {

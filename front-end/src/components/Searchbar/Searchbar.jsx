@@ -57,7 +57,7 @@ const Searchbar = () => {
   };
 
   const handleOnSearchFocus = () => {
-    history.push("/search");
+    history.push(`/search`);
     setFocused(true);
   };
 

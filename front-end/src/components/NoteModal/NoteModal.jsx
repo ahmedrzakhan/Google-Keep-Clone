@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -16,8 +16,8 @@ import {
 } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
 import Modal from "../Shared/Modal/Modal";
-import Input from "../Shared/Input/Input";
-import Textarea from "../Shared/Textarea/Textarea";
+import { ForwardedInput } from "../Shared/Input/Input";
+import { ForwardedTextarea } from "../Shared/Textarea/Textarea";
 import Loader from "./../Shared/Loader/Loader";
 import { CloseButton } from "../../pages/Active";
 import { Status } from "../../redux/notesReducer/reducer";
@@ -27,6 +27,7 @@ const NoteModal = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState([]);
   const [rowSize, setRowSize] = useState(1);
+  const descriptionRef = useRef(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -53,6 +54,7 @@ const NoteModal = () => {
       setRowSize(
         note.description.length < maxRows ? note.description.length : maxRows
       );
+      descriptionRef.current.focus();
     }
   }, [note]);
 
@@ -184,16 +186,15 @@ const NoteModal = () => {
       ) : (
         <ModalCard onClick={(e) => e.stopPropagation()}>
           <ContentContainer>
-            <Input
-              autoFocus={title.length > 0}
+            <ForwardedInput
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
               value={title}
             />
-            <Textarea
-              autoFocus={description.length > 0}
+            <ForwardedTextarea
               onChange={(e) => handleDescriptionChange(e)}
               value={description}
+              ref={descriptionRef}
               rows={rowSize}
               placeholder="Add Description"
             />

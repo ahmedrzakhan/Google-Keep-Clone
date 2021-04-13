@@ -1,10 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import theme from "styled-theming";
 import Layout from "../components/Shared/Layout/Layout";
 import RenderCards from "./../components/RenderCards/RenderCards";
-import Textarea from "../components/Shared/Textarea/Textarea";
+import Textarea, {
+  ForwardedTextarea,
+} from "../components/Shared/Textarea/Textarea";
 import Input from "./../components/Shared/Input/Input";
 import Loader, { LoaderContainer } from "./../components/Shared/Loader/Loader";
 import {
@@ -25,7 +27,7 @@ const ActivePage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [rowSize, setRowSize] = useState(1);
-
+  const textareaRef = useRef(null);
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.notes);
   const areNotesLoading = useSelector((state) => state.notes.areNotesLoading);
@@ -34,8 +36,8 @@ const ActivePage = () => {
     maxRows = 10;
 
   useEffect(() => {
+    textareaRef.current.focus();
     dispatch(getNotesByType(Status.ACTIVE));
-
     return () => {
       dispatch(clearNotes());
     };
@@ -51,6 +53,9 @@ const ActivePage = () => {
   ]);
 
   const handleDescriptionChange = (e) => {
+    if (!showNotepad) {
+      setShowNotepad(true);
+    }
     const textareaLineHeight = 20;
 
     const previousRows = e.target.rows;
@@ -109,10 +114,11 @@ const ActivePage = () => {
               darkThemeEnabled={darkThemeEnabled}
               showNotepad={showNotepad}
             >
-              <Textarea
+              <ForwardedTextarea
+                ref={textareaRef}
                 rows={rowSize}
                 onChange={(e) => handleDescriptionChange(e)}
-                onFocus={() => setShowNotepad(true)}
+                onClick={() => setShowNotepad(true)}
                 placeholder="Take a note..."
                 showNotepad={showNotepad}
                 value={description}

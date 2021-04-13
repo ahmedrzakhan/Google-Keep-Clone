@@ -8,6 +8,10 @@ const Textarea = (props) => {
 
 export default Textarea;
 
+export const ForwardedTextarea = React.forwardRef((props, ref) => (
+  <StyledTextarea ref={ref} {...props} />
+));
+
 const StyledTextarea = styled.textarea`
   background: ${background};
   border: none;

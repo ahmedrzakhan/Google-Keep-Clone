@@ -8,6 +8,10 @@ const Input = (props) => {
 
 export default Input;
 
+export const ForwardedInput = React.forwardRef((props, ref) => (
+  <StyledInput ref={ref} {...props} />
+));
+
 const StyledInput = styled.input`
   background: ${background};
   border: none;
