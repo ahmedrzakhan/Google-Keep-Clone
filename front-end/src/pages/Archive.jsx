@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Layout from "../components/Shared/Layout/Layout";
 import RenderCards from "./../components/RenderCards/RenderCards";
-import { getNotesByType } from "./../redux/notesReducer/actions";
+import { clearNotes, getNotesByType } from "./../redux/notesReducer/actions";
 import { MessageContainer } from "./Active";
 import { Status } from "./../redux/notesReducer/reducer";
 import Loader, { LoaderContainer } from "./../components/Shared/Loader/Loader";
@@ -17,6 +17,10 @@ const ArchivePage = () => {
 
   useEffect(() => {
     dispatch(getNotesByType(Status.ARCHIVE));
+
+    return () => {
+      dispatch(clearNotes());
+    };
   }, [dispatch]);
 
   return (

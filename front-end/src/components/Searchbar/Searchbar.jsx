@@ -66,7 +66,7 @@ const Searchbar = () => {
       <SearchBox focused={focused}>
         <IconContainer>
           {darkThemeEnabled ? (
-            <AiOutlineSearch color={appTheme.darkGrey} size={"1.375rem"} />
+            <AiOutlineSearch color={appTheme.dullGrey} size={"1.375rem"} />
           ) : (
             <AiOutlineSearch color={appTheme.black} size={"1.375rem"} />
           )}

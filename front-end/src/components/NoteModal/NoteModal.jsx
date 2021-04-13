@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import {
+  clearNote,
   deleteNote,
   getNoteById,
   updateNote,
@@ -39,6 +40,10 @@ const NoteModal = () => {
 
   useEffect(() => {
     dispatch(getNoteById(id));
+
+    return () => {
+      dispatch(clearNote());
+    };
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -124,21 +129,18 @@ const NoteModal = () => {
   };
 
   const handleDescriptionChange = (e) => {
-    const { target } = e;
-    let { rows, scrollHeight, value } = target;
-
     const textareaLineHeight = 20;
-    const previousRows = rows;
-    rows = minRows;
-    const currentRows = ~~(scrollHeight / textareaLineHeight);
+    const previousRows = e.target.rows;
+    e.target.rows = minRows;
+    const currentRows = ~~(e.target.scrollHeight / textareaLineHeight);
 
     if (currentRows === previousRows) {
-      rows = currentRows;
+      e.target.rows = currentRows;
     } else if (currentRows >= maxRows) {
-      rows = maxRows;
+      e.target.rows = maxRows;
     }
 
-    setDescription(value);
+    setDescription(e.target.value);
     setRowSize(currentRows < maxRows ? currentRows : maxRows);
   };
 

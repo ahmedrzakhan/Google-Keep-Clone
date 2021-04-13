@@ -25,7 +25,11 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-  });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const pathname = history.location.pathname;
 

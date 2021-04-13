@@ -11,20 +11,18 @@ import { background } from "./../theme/theme";
 
 const SearchPage = () => {
   const dispatch = useDispatch();
-  const filteredNotes = useSelector((state) => state.notes.filteredNotes);
+  const notes = useSelector((state) => state.notes.notes);
   const areNotesLoading = useSelector((state) => state.notes.areNotesLoading);
 
   useEffect(() => {
-    dispatch(clearNotes());
+    return () => {
+      dispatch(clearNotes());
+    };
   }, [dispatch]);
 
-  const activeNotes = filteredNotes.filter(
-    (note) => note.status === Status.ACTIVE
-  );
+  const activeNotes = notes.filter((note) => note.status === Status.ACTIVE);
 
-  const archivedNotes = filteredNotes.filter(
-    (note) => note.status === Status.ARCHIVE
-  );
+  const archivedNotes = notes.filter((note) => note.status === Status.ARCHIVE);
 
   return (
     <SearchPageContainer>

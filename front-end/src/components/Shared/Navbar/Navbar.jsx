@@ -89,8 +89,10 @@ const MenuConatiner = styled.div`
   margin-left: 1.375rem;
 `;
 
-const LogoAndTitle = styled.div`
+const LogoAndTitle = styled.button`
   align-items: center;
+  background: transparent;
+  border: none;
   cursor: pointer;
   display: flex;
   margin-left: 1rem;

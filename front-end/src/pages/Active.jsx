@@ -7,7 +7,11 @@ import RenderCards from "./../components/RenderCards/RenderCards";
 import Textarea from "../components/Shared/Textarea/Textarea";
 import Input from "./../components/Shared/Input/Input";
 import Loader, { LoaderContainer } from "./../components/Shared/Loader/Loader";
-import { addNote, getNotesByType } from "./../redux/notesReducer/actions";
+import {
+  addNote,
+  clearNotes,
+  getNotesByType,
+} from "./../redux/notesReducer/actions";
 import { Status } from "./../redux/notesReducer/reducer";
 import { appTheme, background, textColor } from "./../theme/theme";
 
@@ -31,6 +35,10 @@ const ActivePage = () => {
 
   useEffect(() => {
     dispatch(getNotesByType(Status.ACTIVE));
+
+    return () => {
+      dispatch(clearNotes());
+    };
   }, [dispatch]);
 
   const unPinnedActiveNotes = useMemo(
@@ -43,21 +51,20 @@ const ActivePage = () => {
   ]);
 
   const handleDescriptionChange = (e) => {
-    const { target } = e;
-    let { rows, scrollHeight, value } = target;
-
     const textareaLineHeight = 20;
-    const previousRows = rows;
-    rows = minRows;
-    const currentRows = ~~(scrollHeight / textareaLineHeight);
+
+    const previousRows = e.target.rows;
+    e.target.rows = minRows;
+    const currentRows = ~~(e.target.scrollHeight / textareaLineHeight);
 
     if (currentRows === previousRows) {
-      rows = currentRows;
-    } else if (currentRows >= maxRows) {
-      rows = maxRows;
+      e.target.rows = currentRows;
+    }
+    if (currentRows >= maxRows) {
+      e.target.rows = maxRows;
     }
 
-    setDescription(value);
+    setDescription(e.target.value);
     setRowSize(currentRows < maxRows ? currentRows : maxRows);
   };
 

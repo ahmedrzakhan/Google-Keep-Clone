@@ -19,8 +19,11 @@ import {
   GET_NOTES_BY_SEARCH_SUCCESS,
   GET_NOTES_BY_SEARCH_FAILURE,
   TOGGLE_DARK_THEME,
-  CLEAR_NOTES
+  CLEAR_NOTES,
+  CLEAR_NOTE,
 } from "./actionTypes";
+import { apiCall } from "./../utils";
+import { BASE_URL } from "./../constants";
 // GET NOTES BY TYPE
 export const getNotesByTypeRequest = (payload) => ({
   type: GET_NOTES_BY_TYPE_REQUEST,
@@ -40,13 +43,11 @@ export const getNotesByTypeFailure = (payload) => ({
 export const getNotesByType = (payload) => async (dispatch) => {
   dispatch(getNotesByTypeRequest(payload));
 
-  const config = {
-    method: "get",
-    url: `http://localhost:5000/api/notes/get-notes?status=${payload}`,
-  };
-
   try {
-    const response = await axios(config);
+    const response = await apiCall({
+      method: "get",
+      url: `${BASE_URL}/api/notes/get-notes?status=${payload}`,
+    });
     dispatch(getNotesByTypeSuccess(response.data));
   } catch (err) {
     dispatch(getNotesByTypeFailure(err));
@@ -73,17 +74,15 @@ export const updateNote = (payload) => async (dispatch, getState) => {
   dispatch(updateNoteRequest(payload));
   const { note, _id } = payload;
 
-  const config = {
-    method: "post",
-    url: `http://localhost:5000/api/notes/update-note/${_id}`,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: note,
-  };
-
   try {
-    const response = await axios(config);
+    const response = await apiCall({
+      method: "post",
+      url: `https://google-keep-node-js.herokuapp.com/api/notes/update-note/${_id}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: note,
+    });
     const { notes } = getState();
     const { notes: notesList } = notes;
 
@@ -116,16 +115,14 @@ export const deleteNoteFailure = (payload) => ({
 export const deleteNote = (payload) => async (dispatch, getState) => {
   dispatch(deleteNoteRequest(payload));
 
-  const config = {
-    method: "delete",
-    url: `http://localhost:5000/api/notes/delete-note/${payload}`,
-  };
-
   try {
     const { notes } = getState();
     const { notes: notesList } = notes;
 
-    await axios(config);
+    await apiCall({
+      method: "delete",
+      url: `https://google-keep-node-js.herokuapp.com/api/notes/delete-note/${payload}`,
+    });
     const data = notesList.filter((note) => note._id !== payload);
 
     dispatch(deleteNoteSuccess(data));
@@ -153,17 +150,16 @@ export const addNoteFailure = (payload) => ({
 export const addNote = (payload) => async (dispatch) => {
   dispatch(addNoteRequest(payload));
 
-  const config = {
-    method: "post",
-    url: "http://localhost:5000/api/notes/add-note",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: payload,
-  };
-
   try {
-    const response = await axios(config);
+    const response = await apiCall({
+      method: "post",
+      url: "https://google-keep-node-js.herokuapp.com/api/notes/add-note",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: payload,
+    });
+    // axios(config);
     dispatch(addNoteSuccess(response.data));
   } catch (err) {
     dispatch(addNoteFailure(err));
@@ -189,13 +185,12 @@ export const getNoteByIdFailure = (payload) => ({
 export const getNoteById = (payload) => async (dispatch) => {
   dispatch(getNoteByIdRequest(payload));
 
-  const config = {
-    method: "get",
-    url: `http://localhost:5000/api/notes/get-note/${payload}`,
-  };
-
   try {
-    const response = await axios(config);
+    const response = await apiCall({
+      method: "get",
+      url: `https://google-keep-node-js.herokuapp.com/api/notes/get-note/${payload}`,
+    });
+    // axios(config);
     dispatch(getNoteByIdSuccess(response.data));
   } catch (err) {
     dispatch(getNoteByIdFailure(err));
@@ -221,13 +216,11 @@ export const getNotesBySearchFailure = (payload) => ({
 export const getNotesBySearch = (payload) => async (dispatch) => {
   dispatch(getNotesBySearchRequest(payload));
 
-  const config = {
-    method: "get",
-    url: `http://localhost:5000/api/notes/search-by-char/${payload}`,
-  };
-
   try {
-    const response = await axios(config);
+    const response = await apiCall({
+      method: "get",
+      url: `https://google-keep-node-js.herokuapp.com/api/notes/search-by-char/${payload}`,
+    });
     dispatch(getNotesBySearchSuccess(response.data));
   } catch (err) {
     dispatch(getNotesBySearchFailure(err));
@@ -239,5 +232,9 @@ export const toggleDarkTheme = () => ({
 });
 
 export const clearNotes = () => ({
-  type: CLEAR_NOTES
-})
+  type: CLEAR_NOTES,
+});
+
+export const clearNote = () => ({
+  type: CLEAR_NOTE,
+});

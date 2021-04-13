@@ -19,6 +19,7 @@ import {
   GET_NOTES_BY_SEARCH_FAILURE,
   TOGGLE_DARK_THEME,
   CLEAR_NOTES,
+  CLEAR_NOTE,
 } from "./actionTypes";
 
 export const Status = {
@@ -48,9 +49,9 @@ const initialState = {
   errorGettingNotes: false,
   errorGettingNote: false, // for single note
   notes: [],
-  filteredNotes: [], // for search results
   note: {}, // for single note
-  darkThemeEnabled: loadData("theme") && loadData("theme").darkThemeEnabled || false,
+  darkThemeEnabled:
+    (loadData("theme") && loadData("theme").darkThemeEnabled) || false,
 };
 
 export const notesReducer = (state = initialState, { type, payload }) => {
@@ -89,7 +90,6 @@ export const notesReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isUpdatingNote: false,
-        filteredNotes: payload,
         notes: payload,
       };
     }
@@ -112,7 +112,6 @@ export const notesReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isDeletingNote: false,
-        filteredNotes: payload,
         notes: payload,
       };
     }
@@ -164,7 +163,6 @@ export const notesReducer = (state = initialState, { type, payload }) => {
         ...state,
         areNotesLoading: false,
         notes: payload,
-        filteredNotes: payload,
       };
     }
 
@@ -180,7 +178,11 @@ export const notesReducer = (state = initialState, { type, payload }) => {
     }
 
     case CLEAR_NOTES: {
-      return { ...state, filteredNotes: [] };
+      return { ...state, notes: [] };
+    }
+
+    case CLEAR_NOTE: {
+      return { ...state, note: {} };
     }
 
     default:
