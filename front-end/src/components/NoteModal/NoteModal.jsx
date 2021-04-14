@@ -242,10 +242,6 @@ const ContentContainer = styled.div`
   padding: 1rem 1rem 0 1rem;
 `;
 
-// const NoteTitle = styled(ForwardedInput)`
-//   font-size: 1.25rem;
-// `;
-
 const ActionContainer = styled.div`
   align-items: center;
   box-shadow: 0 -2px 5px rgb(0 0 0 / 20%);
