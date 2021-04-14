@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import theme from "styled-theming";
 import Layout from "../components/Shared/Layout/Layout";
-import RenderCards from "./../components/RenderCards/RenderCards";
-import Textarea, {
-  ForwardedTextarea,
-} from "../components/Shared/Textarea/Textarea";
+import RenderCards, {
+  IconContainer,
+} from "./../components/RenderCards/RenderCards";
+import { ForwardedTextarea } from "../components/Shared/Textarea/Textarea";
 import Input from "./../components/Shared/Input/Input";
 import Loader, { LoaderContainer } from "./../components/Shared/Loader/Loader";
 import {
@@ -15,6 +15,11 @@ import {
   getNotesByType,
 } from "./../redux/notesReducer/actions";
 import { Status } from "./../redux/notesReducer/reducer";
+import {
+  RiInboxArchiveLine,
+  RiPushpin2Fill,
+  RiPushpin2Line,
+} from "react-icons/ri";
 import { appTheme, background, textColor } from "./../theme/theme";
 
 const CloseButtonBackground = theme("theme", {
@@ -24,6 +29,7 @@ const CloseButtonBackground = theme("theme", {
 
 const ActivePage = () => {
   const [showNotepad, setShowNotepad] = useState(false);
+  const [isNotePinned, setIsNotePinned] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [rowSize, setRowSize] = useState(1);
@@ -73,16 +79,16 @@ const ActivePage = () => {
     setRowSize(currentRows < maxRows ? currentRows : maxRows);
   };
 
-  const handleCloseNotepad = () => {
+  const handleCloseNotepad = (status) => {
     if (title.length || description.length) {
       const payload = {
         date: new Date(),
         description: description.split("\n"),
-        pinned: false,
-        status: Status.ACTIVE,
+        pinned: isNotePinned,
+        status,
         title,
       };
-
+      console.log("payload", payload);
       dispatch(addNote(payload))
         .then(() => {
           setDescription("");
@@ -91,9 +97,10 @@ const ActivePage = () => {
         })
         .catch((err) => console.log("Add Note Failed", err));
     }
-
+    setIsNotePinned(false);
     setShowNotepad(false);
   };
+
 
   return (
     <ActivePageContainer>
@@ -118,16 +125,36 @@ const ActivePage = () => {
                 ref={textareaRef}
                 rows={rowSize}
                 onChange={(e) => handleDescriptionChange(e)}
-                onClick={() => setShowNotepad(true)}
+                onClick={() => !showNotepad && setShowNotepad(true)}
                 placeholder="Take a note..."
                 showNotepad={showNotepad}
                 value={description}
               />
             </NoteDescriptionInputWrapper>
             {showNotepad && (
-              <CloseButtonContainer>
-                <CloseButton onClick={handleCloseNotepad}>Close</CloseButton>
-              </CloseButtonContainer>
+              <ActionsContainer>
+                <IconsContainer>
+                  <IconContainer
+                    horizontalMargin
+                    onClick={() => setIsNotePinned((isPinned) => !isPinned)}
+                  >
+                    {isNotePinned ? (
+                      <RiPushpin2Fill size={"1.125rem"} />
+                    ) : (
+                      <RiPushpin2Line size={"1.125rem"} />
+                    )}
+                  </IconContainer>
+                  <IconContainer
+                    horizontalMargin
+                    onClick={() => handleCloseNotepad(Status.ARCHIVE)}
+                  >
+                    <RiInboxArchiveLine size={"1.125rem"} />
+                  </IconContainer>
+                </IconsContainer>
+                <CloseButton onClick={() => handleCloseNotepad(Status.ACTIVE)}>
+                  Close
+                </CloseButton>
+              </ActionsContainer>
             )}
           </NotepadWrapper>
         </NotepadContainer>
@@ -206,11 +233,16 @@ const NoteDescriptionInputWrapper = styled.div`
   padding: 0.5rem;
 `;
 
-const CloseButtonContainer = styled.div`
+const ActionsContainer = styled.div`
+  align-items: center;
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: space-between;
   padding: 0.125rem;
   width: 100%;
+`;
+
+const IconsContainer = styled.div`
+  display: flex;
 `;
 
 export const CloseButton = styled.button`

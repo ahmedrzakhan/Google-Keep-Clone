@@ -157,4 +157,5 @@ export const IconContainer = styled.div`
     background: ${iconBackground};
     border-radius: 50%;
   }
+  margin: ${({horizontalMargin}) => (horizontalMargin) ? "0 0.375rem" : 0}
 `;
