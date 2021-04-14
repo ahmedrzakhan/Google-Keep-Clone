@@ -3,7 +3,12 @@ import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { deleteNote, updateNote } from "./../../redux/notesReducer/actions";
-import { appTheme, borderColor, iconBackground, textColor } from "./../../theme/theme";
+import {
+  appTheme,
+  borderColor,
+  iconBackground,
+  textColor,
+} from "./../../theme/theme";
 import { Status } from "./../../redux/notesReducer/reducer";
 import {
   RiInboxArchiveLine,
@@ -110,23 +115,8 @@ export default RenderCards;
 const CardsContainer = styled.div`
   column-count: 4;
   column-gap: 0.5rem;
-  column-width: 13.5rem;
+  column-width: 16.5rem;
   margin-bottom: 1rem;
-
-  @media (max-width: 600px) {
-    column-count: 1
-  }
-
-  @media (min-width: 768px) {
-    column-count: 2
-  }
-  @media (min-width: 992px) {
-    column-count: 3
-  }
-
-  @media (min-width: 1200px) {
-    column-count: 4
-  }
 `;
 
 const NoteCard = styled.div`
@@ -173,5 +163,5 @@ export const IconContainer = styled.div`
     background: ${iconBackground};
     border-radius: 50%;
   }
-  margin: ${({horizontalMargin}) => (horizontalMargin) ? "0 0.375rem" : 0}
+  margin: ${({ horizontalMargin }) => (horizontalMargin ? "0 0.375rem" : 0)};
 `;

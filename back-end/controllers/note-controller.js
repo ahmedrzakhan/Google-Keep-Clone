@@ -67,7 +67,7 @@ const getNoteById = async (req, res) => {
 const getNotes = async (req, res) => {
   const { status } = req.query;
 
-  const notes = await Note.find({ status: status });
+  const notes = await Note.find({ status: status }).sort({ date: "-1" });
 
   res.status(200).send(notes);
 };

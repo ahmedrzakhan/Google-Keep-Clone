@@ -134,7 +134,7 @@ export const notesReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isAddingNote: false,
-        notes: [...state.notes, payload],
+        notes: [payload, ...state.notes],
       };
     }
 

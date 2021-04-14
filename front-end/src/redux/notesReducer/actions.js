@@ -158,7 +158,7 @@ export const addNote = (payload) => async (dispatch) => {
       },
       data: payload,
     });
-    // axios(config);
+
     dispatch(addNoteSuccess(response.data));
   } catch (err) {
     dispatch(addNoteFailure(err));
