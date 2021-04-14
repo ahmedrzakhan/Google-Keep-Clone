@@ -88,7 +88,7 @@ const ActivePage = () => {
         status,
         title,
       };
-      console.log("payload", payload);
+
       dispatch(addNote(payload))
         .then(() => {
           setDescription("");
@@ -100,7 +100,6 @@ const ActivePage = () => {
     setIsNotePinned(false);
     setShowNotepad(false);
   };
-
 
   return (
     <ActivePageContainer>
@@ -210,8 +209,6 @@ const NotepadContainer = styled.div`
 
 const NotepadWrapper = styled.div`
   border-radius: 0.25rem;
-  border: ${({ darkThemeEnabled }) =>
-    darkThemeEnabled ? `1px solid ${appTheme.dullGrey}` : 0};
   box-shadow: ${({ showNotepad, darkThemeEnabled }) =>
     darkThemeEnabled
       ? 0
@@ -223,6 +220,8 @@ const NotepadWrapper = styled.div`
 `;
 
 const NoteDescriptionInputWrapper = styled.div`
+  border: ${({ darkThemeEnabled }) =>
+    darkThemeEnabled ? `1px solid ${appTheme.dullGrey}` : 0};
   border-radius: 0.125rem;
   box-shadow: ${({ darkThemeEnabled, showNotepad }) =>
     darkThemeEnabled
