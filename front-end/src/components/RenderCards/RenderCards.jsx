@@ -110,7 +110,23 @@ export default RenderCards;
 const CardsContainer = styled.div`
   column-count: 4;
   column-gap: 0.5rem;
+  column-width: 13.5rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 600px) {
+    column-count: 1
+  }
+
+  @media (min-width: 768px) {
+    column-count: 2
+  }
+  @media (min-width: 992px) {
+    column-count: 3
+  }
+
+  @media (min-width: 1200px) {
+    column-count: 4
+  }
 `;
 
 const NoteCard = styled.div`
@@ -119,7 +135,7 @@ const NoteCard = styled.div`
   display: inline-block;
   margin-top: 0.5rem;
   padding: 1rem 1.5rem 0.5rem;
-  width: 14.5rem;
+  width: 13.5rem;
   word-break: break-all;
 
   &:hover {
