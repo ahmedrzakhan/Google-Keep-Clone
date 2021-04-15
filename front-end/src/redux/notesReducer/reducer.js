@@ -25,6 +25,7 @@ import {
 export const Status = {
   ACTIVE: "Active",
   ARCHIVE: "Archive",
+  SEARCH: "Search",
 };
 
 export const loadData = (key) => {

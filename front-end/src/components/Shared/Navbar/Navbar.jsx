@@ -6,8 +6,9 @@ import Searchbar from "../../Searchbar/Searchbar";
 import { toggleDarkTheme } from "./../../../redux/notesReducer/actions";
 import { AiFillBook, AiOutlineMenu } from "react-icons/ai";
 import { MdBrightness6, MdBrightness7 } from "react-icons/md";
-import { appTheme, background } from "./../../../theme/theme";
+import { appTheme, background, textColor } from "./../../../theme/theme";
 import { IconContainer } from "./../../RenderCards/RenderCards";
+import { Status } from "./../../../redux/notesReducer/reducer";
 
 const Navbar = ({ boxShadow, path, toggleSideBar }) => {
   const history = useHistory();
@@ -16,11 +17,11 @@ const Navbar = ({ boxShadow, path, toggleSideBar }) => {
 
   let header;
   if (path === "/") {
-    header = "Active";
+    header = Status.ACTIVE;
   } else if (path === "/archive") {
-    header = "Archive";
+    header = Status.ARCHIVE;
   } else if (path.includes("/search")) {
-    header = "Search";
+    header = Status.SEARCH;
   }
 
   return (
@@ -99,6 +100,7 @@ const LogoAndTitle = styled.button`
 `;
 
 const Title = styled.div`
+  color: ${textColor};
   font-size: 1.25rem;
   margin-left: 0.5rem;
 `;

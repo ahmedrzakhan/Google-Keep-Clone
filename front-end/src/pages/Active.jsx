@@ -50,7 +50,7 @@ const ActivePage = () => {
   }, [dispatch]);
 
   const unPinnedActiveNotes = useMemo(
-    () => notes.filter((note) => note.status === Status.ACTIVE && !note.pinned),
+    () => notes.filter((note) => !note.pinned),
     [notes]
   );
 
@@ -70,8 +70,7 @@ const ActivePage = () => {
 
     if (currentRows === previousRows) {
       e.target.rows = currentRows;
-    }
-    if (currentRows >= maxRows) {
+    } else if (currentRows >= maxRows) {
       e.target.rows = maxRows;
     }
 
@@ -208,6 +207,8 @@ const NotepadContainer = styled.div`
 `;
 
 const NotepadWrapper = styled.div`
+  border: ${({ darkThemeEnabled, showNotepad }) =>
+    darkThemeEnabled && showNotepad ? `1px solid ${appTheme.dullGrey}` : 0};
   border-radius: 0.25rem;
   box-shadow: ${({ showNotepad, darkThemeEnabled }) =>
     darkThemeEnabled
@@ -220,8 +221,8 @@ const NotepadWrapper = styled.div`
 `;
 
 const NoteDescriptionInputWrapper = styled.div`
-  border: ${({ darkThemeEnabled }) =>
-    darkThemeEnabled ? `1px solid ${appTheme.dullGrey}` : 0};
+  border: ${({ darkThemeEnabled, showNotepad }) =>
+    darkThemeEnabled && !showNotepad ? `1px solid ${appTheme.dullGrey}` : 0};
   border-radius: 0.125rem;
   box-shadow: ${({ darkThemeEnabled, showNotepad }) =>
     darkThemeEnabled
