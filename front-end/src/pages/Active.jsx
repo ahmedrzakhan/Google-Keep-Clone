@@ -134,7 +134,7 @@ const ActivePage = () => {
                 <IconsContainer>
                   <IconContainer
                     horizontalMargin
-                    onClick={() => setIsNotePinned((isPinned) => !isPinned)}
+                    onClick={() => setIsNotePinned(!isNotePinned)}
                   >
                     {isNotePinned ? (
                       <RiPushpin2Fill size={"1.125rem"} />
