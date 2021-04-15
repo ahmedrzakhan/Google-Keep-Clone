@@ -73,7 +73,7 @@ const RenderCards = ({ notes }) => {
             }}
           >
             <NoteTitle len={note.title.length}>{note.title}</NoteTitle>
-            <NoteDescription len={note.description.length}>
+            <NoteDescription>
               {note.description.map((description, index) => {
                 if (!description.trim().length) {
                   // display empty line for empty strings
