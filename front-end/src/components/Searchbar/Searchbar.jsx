@@ -6,14 +6,9 @@ import theme from "styled-theming";
 import useDebounce from "../../hooks/useDebounce";
 import { AiOutlineSearch } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
-import { appTheme } from "../../theme/theme";
+import { appTheme, textColor } from "../../theme/theme";
 import { getNotesBySearch } from "../../redux/notesReducer/actions";
 import { IconContainer } from "../RenderCards/RenderCards";
-
-const barBackgroundFocused = theme("theme", {
-  light: appTheme.white,
-  dark: appTheme.white,
-});
 
 const barBackgroundBlurred = theme("theme", {
   light: appTheme.lightGrey,
@@ -72,9 +67,11 @@ const Searchbar = () => {
           )}
         </IconContainer>
         <SearchInput
+          focused={focused}
           onChange={(e) => setQuery(e.target.value)}
           onBlur={handleOnSearchBlur}
           onFocus={handleOnSearchFocus}
+          placeholder="Search"
           ref={queryRef}
           value={query}
         />
@@ -102,7 +99,7 @@ const SearchContainer = styled.div`
 const SearchBox = styled.div`
   align-items: center;
   background: ${({ focused }) =>
-    focused ? barBackgroundFocused : barBackgroundBlurred};
+    focused ? appTheme.white : barBackgroundBlurred};
   border-radius: 0.375rem;
   box-shadow: ${({ focused }) =>
     focused
@@ -121,4 +118,8 @@ const SearchInput = styled.input`
   margin: 0 0.375rem;
   outline: none;
   width: 100%;
+
+  &::placeholder {
+    color: ${({ focused }) => (focused ? appTheme.grey : textColor)};
+  }
 `;
